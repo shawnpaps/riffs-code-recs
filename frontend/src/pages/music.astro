@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RecommendationCard from '../components/RecommendationCard.astro';
+
+const recommendations = [
+  {
+    title: "Plini - Impulse Voices",
+    description: "A masterful blend of progressive metal and jazz fusion. Perfect for coding sessions that require deep focus.",
+    date: "2024-03-19",
+    link: "https://plini.bandcamp.com/album/impulse-voices"
+  },
+  {
+    title: "GoGo Penguin - Everything Is Going to Be OK",
+    description: "Contemporary jazz meets electronic music. Ideal background music for problem-solving and debugging.",
+    date: "2024-03-17",
+    link: "https://gogopenguin.bandcamp.com/"
+  },
+  {
+    title: "Tycho - Weather",
+    description: "Ambient electronic music that enhances productivity without being distracting.",
+    date: "2024-03-14",
+    link: "https://tycho.bandcamp.com/album/weather"
+  }
+];
+---
+
+<Layout title="Music Recommendations">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="font-display text-4xl font-bold mb-8 text-primary-300">Music Recommendations</h1>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {recommendations.map(rec => (
+        <RecommendationCard 
+          title={rec.title}
+          description={rec.description}
+          category="music"
+          date={rec.date}
+          link={rec.link}
+        />
+      ))}
+    </div>
+  </div>
+</Layout>

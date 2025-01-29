@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RecommendationCard from '../components/RecommendationCard.astro';
+
+const recommendations = [
+  {
+    title: "Fellow Stagg EKG Electric Kettle",
+    description: "Premium electric kettle with precise temperature control and a sleek design. Perfect for pour-over coffee.",
+    date: "2024-03-20",
+    link: "https://fellowproducts.com/products/stagg-ekg-electric-kettle"
+  },
+  {
+    title: "Ethiopian Yirgacheffe - Light Roast",
+    description: "A bright and complex coffee with floral notes and citrus undertones. Ideal for morning coding sessions.",
+    date: "2024-03-16",
+    link: null
+  },
+  {
+    title: "Timemore C2 Manual Grinder",
+    description: "High-quality manual grinder with consistent grind size. Great value for those getting into specialty coffee.",
+    date: "2024-03-13",
+    link: "https://en.timemore.com/taimochanpin/modouji/c2/"
+  }
+];
+---
+
+<Layout title="Coffee Recommendations">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="font-display text-4xl font-bold mb-8 text-primary-300">Coffee Recommendations</h1>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {recommendations.map(rec => (
+        <RecommendationCard 
+          title={rec.title}
+          description={rec.description}
+          category="coffee"
+          date={rec.date}
+          link={rec.link}
+        />
+      ))}
+    </div>
+  </div>
+</Layout>
