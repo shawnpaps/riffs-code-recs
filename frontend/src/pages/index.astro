@@ -1,36 +1,33 @@
 ---
+import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Hero
+	from "../components/Hero.astro";
+import Card
+	from "../components/Card.astro";
+import RecentlyAddedCard
+	from "../components/RecentlyAddedCard.astro";
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout title="Home">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div class="text-center max-w-3xl mx-auto">
-      <h1 class="font-display text-5xl font-bold mb-6 bg-gradient-to-r from-primary-300 to-primary-500 text-transparent bg-clip-text">
-        Welcome to Riffs. Code. Coffee.
-      </h1>
-      <p class="text-xl text-gray-300 mb-12">
-        Discover curated recommendations for tech, music, and coffee – where code meets culture.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-      <div class="bg-gray-900 rounded-lg p-8 border border-gray-800 hover:border-primary-500 transition">
-        <h2 class="font-display text-2xl mb-4 text-primary-300">Tech</h2>
-        <p class="text-gray-300">Stay up to date with the latest tools, frameworks, and developer resources.</p>
-        <a href="/tech" class="inline-block mt-4 text-primary-300 hover:text-primary-400">Explore Tech →</a>
-      </div>
-
-      <div class="bg-gray-900 rounded-lg p-8 border border-gray-800 hover:border-primary-500 transition">
-        <h2 class="font-display text-2xl mb-4 text-primary-300">Music</h2>
-        <p class="text-gray-300">Discover new artists, albums, and playlists curated for developers.</p>
-        <a href="/music" class="inline-block mt-4 text-primary-300 hover:text-primary-400">Explore Music →</a>
-      </div>
-
-      <div class="bg-gray-900 rounded-lg p-8 border border-gray-800 hover:border-primary-500 transition">
-        <h2 class="font-display text-2xl mb-4 text-primary-300">Coffee</h2>
-        <p class="text-gray-300">Find the best coffee gear, beans, and brewing techniques.</p>
-        <a href="/coffee" class="inline-block mt-4 text-primary-300 hover:text-primary-400">Explore Coffee →</a>
-      </div>
-    </div>
-  </div>
+<Layout>
+	<Hero title="Riffs. Code. Community." navTitle="Home"/>
+	<section class="">
+		<ul class="flex justify-between items-center space-x-4">
+		<Card title="Playlist" href="music"/>
+			<Card title="Tech" href="/"/>
+			<Card title="Tips" href="/"/>
+		</ul>
+	</section>
+	<section class="my-16 bg-white/70 p-16 py-10 rounded-2xl text-black">
+		<h2 class=" text-7xl font-bold underline underline-offset-8">Recently Added</h2>
+		<ul class="p-5 space-y-2">
+			<RecentlyAddedCard/>
+			<RecentlyAddedCard/>
+			<RecentlyAddedCard/>
+			<RecentlyAddedCard/>
+		</ul>
+	</section>
 </Layout>

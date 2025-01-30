@@ -1,0 +1,26 @@
+---
+import Layout
+    from "../../layouts/Layout.astro";
+import Hero
+    from "../../components/Hero.astro";
+import PlaylistItem from "../../components/PlaylistItem.astro";
+import {
+    fetchAllSongs
+} from "../../lib/functions";
+
+const data = await fetchAllSongs()
+
+console.log(data)
+---
+<Layout>
+    <Hero title="The Official Riffs. Code. Coffee. Playlist" navTitle="Riffs"/>
+    <section class="my-16 bg-white/70 p-16 py-10 rounded-2xl text-black">
+
+        <ul class="p-2 space-y-2">
+           <PlaylistItem />
+            <PlaylistItem />
+            <PlaylistItem />
+            <PlaylistItem />
+        </ul>
+    </section>
+</Layout>
