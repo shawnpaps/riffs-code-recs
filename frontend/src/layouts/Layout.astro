@@ -1,49 +1,24 @@
 ---
-import '@fontsource/space-grotesk';
-import '@fontsource/inter';
-
-interface Props {
-  title: string;
-  description?: string;
-}
-
-const { title, description = "Tech, music, and coffee recommendations from a developer's perspective" } = Astro.props;
+import Navigation
+	from "../components/Navigation.astro";
 ---
-
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title} | Riffs. Code. Coffee.</title>
-  </head>
-  <body class="bg-dark text-white min-h-screen">
-    <header class="border-b border-gray-800">
-      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div class="flex justify-between items-center">
-          <a href="/" class="font-display text-2xl text-primary-300">
-            Riffs. Code. Coffee.
-          </a>
-          <div class="space-x-8">
-            <a href="/tech" class="text-gray-300 hover:text-primary-300 transition">Tech</a>
-            <a href="/music" class="text-gray-300 hover:text-primary-300 transition">Music</a>
-            <a href="/coffee" class="text-gray-300 hover:text-primary-300 transition">Coffee</a>
-          </div>
-        </div>
-      </nav>
-    </header>
-    <main class="">
-      <slot />
-    </main>
-    <footer class="border-t border-gray-800 mt-20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <p class="text-center text-gray-400">
-          © {new Date().getFullYear()} Riffs. Code. Coffee. All rights reserved.
-        </p>
-      </div>
-    </footer>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro Basics</title>
+	</head>
+	<body class="bg-gradient-to-r from-cyan-500 to-blue-500">
+	<header>
+		<Navigation/>
+	</header>
+	<main class="container mx-auto">
+		<slot />
+	</main>
+	</body>
 </html>
+
+

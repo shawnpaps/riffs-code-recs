@@ -1,0 +1,10 @@
+---
+const {title, navTitle} = Astro.props
+---
+<section class="p-32 container bg-white/70 rounded-2xl text-center my-8 relative">
+    {navTitle === 'Home' && <h2 class="font-light text-xl">Welcome to the</h2>}
+    <h3 class="text-4xl font-bold">{title}</h3>
+    <p class="text-9xl absolute bottom-0 left-0 blur-sm opacity-20">{navTitle}</p>
+
+
+</section>
