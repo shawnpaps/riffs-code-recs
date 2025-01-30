@@ -1,12 +1,14 @@
-export const fetchAllSongs = async () => {
+import {
+    baseURL
+} from "./utils.ts";
+
+export const fetchAllFromTable = async (tableName: string) => {
     try {
-        const url = `${import.meta.env.BASE_URL}/api/songs`; // Use env variable for API base URL
+
+        const url = `${baseURL}/api/${tableName}`; ;
+        console.log(url)// Use env variable for API base URL
         const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
+
         });
 
         if (!response.ok) {
