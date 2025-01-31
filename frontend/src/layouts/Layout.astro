@@ -1,6 +1,8 @@
 ---
 import Navigation
 	from "../components/Navigation.astro";
+import SubscribeModal
+	from "../components/SubscribeModal.astro";
 ---
 <!doctype html>
 <html lang="en">
@@ -9,7 +11,7 @@ import Navigation
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Riffs. Code. Community. | Home</title>
 	</head>
 	<body class="bg-gradient-to-r from-cyan-600 to-blue-600 text-black">
 	<header class="py-8">
@@ -18,7 +20,9 @@ import Navigation
 	<main class="container mx-auto min-h-screen ">
 		<slot />
 	</main>
+	<SubscribeModal/>
 	</body>
 </html>
+
 
 

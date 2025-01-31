@@ -4,7 +4,8 @@
     "info": {
         "singularName": "song",
         "pluralName": "songs",
-        "displayName": "Songs"
+        "displayName": "Songs",
+        "description": ""
     },
     "options": {
         "draftAndPublish": true
@@ -29,6 +30,11 @@
         },
         "RCC_Article_URL": {
             "type": "string"
+        },
+        "admin_user": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "admin::user"
         }
     }
 }

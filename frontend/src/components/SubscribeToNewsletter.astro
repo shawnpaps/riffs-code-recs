@@ -1,0 +1,22 @@
+
+---
+const actionUrl = "/api/subscribe"; // Ensure this matches your Astro API route
+---
+
+<form action={actionUrl} method="POST" class="w-full max-w-lg mx-auto p-4 bg-gray-900 rounded-lg shadow-md">
+    <label for="email" class="block text-white font-medium mb-2">Enter your email:</label>
+    <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="w-full px-4 py-2 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="you@example.com"
+    />
+    <button
+            type="submit"
+            class="w-full mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300"
+    >
+        Subscribe
+    </button>
+</form>
