@@ -18,9 +18,12 @@
     "better-sqlite3": "11.3.0",
     "fs-extra": "^10.1.0",
     "mime-types": "^2.1.35",
+    "pg": "^8.13.1",
+    "pg-connection-string": "^2.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.2",
+    "strapi-plugin-netlify-deployments": "^2.0.2",
     "styled-components": "^6.1.14"
   },
   "devDependencies": {

@@ -7,7 +7,7 @@ const data = await fetchAllBlogPosts()
 console.log(data)
 ---
 <ul class="flex items-center flex-wrap gap-4 py-4 mx-auto">
-    {data.map((post) => (
+    {data?.map((post) => (
         <li class="bg-black h-64 w-64 rounded-xl relative group" key={post.id}>
             <a href={post.web_url} target="_blank" rel="noopener noreferrer">
             <div class="w-full h-full absolute top-0 left-0 opacity-50 group-hover:opacity-100 transition-opacity"><img class="object-cover rounded-xl h-full w-full" src={post.thumbnail_url} alt={post.title}/></div>

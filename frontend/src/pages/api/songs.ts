@@ -12,7 +12,7 @@ export const GET: APIRoute = async ({ request }) => {
             throw new Error("STRAPI_TOKEN is not defined in the environment variables.");
         }
 
-        const url = `${strapiUrl}/api/songs`;
+        const url = `${strapiUrl}/api/songs?sort=Artist`;
         const response = await fetch(url, {
             method: "GET",
             headers: {
