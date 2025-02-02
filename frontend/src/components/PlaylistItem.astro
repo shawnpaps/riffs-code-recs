@@ -1,22 +1,44 @@
 ---
 const { data } = Astro.props;
 ---
-<li class="bg-white/20 p-4 rounded-2xl border-2 shadow-lg hover:bg-white transition-all">
-    <div class="flex items-center justify-between px-4">
-        <div class="flex items-center space-x-2">
 
-            <!--<div class="w-16">-->
-            <!--    <img src="https://avatar.iran.liara.run/public/boy?username=Ash" alt="Album Art" />-->
-            <!--</div>-->
-            <p class="text-black">
-                <span class="font-bold text-indigo-600">{data.Name}</span> - <span class="font-semibold">{data.Artist.toUpperCase()}</span>
-            </p>
-        </div>
-        <div class="flex space-x-4 items-center">
-            {data.Spotify_URL != null && <a href={data.Spotify_URL} target="_blank" rel="noopener noreferrer" class="btn bg-emerald-500 hover:bg-emerald-800 border-none rounded-full  font-bold">Spotify</a>
-            }
-            {data.Apple_Music_URL != null &&  <a href={data.Apple_Music_URL} target="_blank" rel="noopener noreferrer" class="btn bg-red-400 rounded-full border-none hover:bg-red-800">Apple Music</a>
-            }
-        </div>
-    </div>
+<li
+	class="bg-white/20 p-4 rounded-2xl border-2 shadow-lg hover:bg-white transition-all"
+>
+	<div class="flex items-center justify-between px-4">
+		<div class="flex items-center space-x-2">
+			<!--<div class="w-16">-->
+			<!--    <img src="https://avatar.iran.liara.run/public/boy?username=Ash" alt="Album Art" />-->
+			<!--</div>-->
+			<p class="text-black">
+				<span class="font-bold text-indigo-600">{data.title}</span> - <span
+					class="font-semibold">{data.artist.toUpperCase()}</span
+				>
+			</p>
+		</div>
+		<div class="flex space-x-4 items-center">
+			{
+				data.spotifyUrl != null && (
+					<a
+						href={data.spotifyUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="btn bg-emerald-500 hover:bg-emerald-800 border-none rounded-full  font-bold">
+						Spotify
+					</a>
+				)
+			}
+			{
+				data.appleMusicUrl != null && (
+					<a
+						href={data.appleMusicUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="btn bg-red-400 rounded-full border-none hover:bg-red-800">
+						Apple Music
+					</a>
+				)
+			}
+		</div>
+	</div>
 </li>

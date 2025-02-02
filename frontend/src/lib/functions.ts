@@ -1,68 +1,64 @@
-import {
-    baseURL
-} from "./utils.ts";
+import { baseURL } from './utils.ts';
 
 export const fetchAllFromTable = async (tableName: string) => {
-    try {
+	try {
+		const url = `${baseURL}/api/${tableName}`;
+		const response = await fetch(url, {});
 
-        const url = `${baseURL}/api/${tableName}`; ;
-        console.log(url)// Use env variable for API base URL
-        const response = await fetch(url, {
+		if (!response.ok) {
+			throw new Error(
+				`API request failed with status ${response.status}: ${response.statusText}`
+			);
+		}
 
-        });
-
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        return data;
-
-    } catch (error) {
-        console.error("Error fetching songs:", error);
-        return null; // Return null or handle error gracefully
-    }
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error fetching songs:', error);
+		return null; // Return null or handle error gracefully
+	}
 };
 
 export const fetchAllBlogPosts = async () => {
-    try {
-        const url = `${baseURL}/api/posts`;
-        const response = await fetch(url, {})
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}: ${response.statusText}`);
-        }
+	try {
+		const url = `${baseURL}/api/posts`;
+		const response = await fetch(url, {});
+		if (!response.ok) {
+			throw new Error(
+				`API request failed with status ${response.status}: ${response.statusText}`
+			);
+		}
 
-        const data = await response.json();
-        return data;
-    }
-    catch (error) {
-        console.error("Error fetching songs:", error);
-        return null; // Return null or handle error gracefully
-    }
-}
-
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error fetching songs:', error);
+		return null; // Return null or handle error gracefully
+	}
+};
 
 export const subscribeUser = async (email) => {
-    try {
-        const url = `${baseURL}/api/subscribe`;
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email
-            })
-        })
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}: ${response.statusText}`);
-        }
+	try {
+		const url = `${baseURL}/api/subscribe`;
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				email,
+			}),
+		});
+		if (!response.ok) {
+			throw new Error(
+				`API request failed with status ${response.status}: ${response.statusText}`
+			);
+		}
 
-        const data = await response.json();
-        return data;
-
-    } catch (error) {
-        console.error("Subscribe user:", error);
-        return null
-    }
-}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Subscribe user:', error);
+		return null;
+	}
+};

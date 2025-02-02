@@ -1,28 +1,22 @@
 ---
-import Layout
-    from "../../layouts/Layout.astro";
-import Hero
-    from "../../components/Hero.astro";
-import PlaylistItem from "../../components/PlaylistItem.astro";
-import {
-    fetchAllFromTable
-} from "../../lib/functions";
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import PlaylistItem from '../../components/PlaylistItem.astro';
+import { fetchAllFromTable } from '../../lib/functions';
 
-const data = await fetchAllFromTable('songs')
-console.log(data)
-
-
+const data = await fetchAllFromTable('songs');
+console.log(data);
 ---
-<Layout>
-    <Hero title="The Official Riffs. Code. Coffee. Playlist" navTitle="Riffs."/>
-    <section class="my-16 bg-white/70 p-16 py-10 rounded-2xl text-black">
 
-        <ul class="p-2 space-y-2 max-h-[500px] overflow-scroll">
-            {data?.map(song => {
-                return(
-                    <PlaylistItem data={song} />
-                )
-            })}
-        </ul>
-    </section>
+<Layout>
+	<Hero title="The Official Riffs. Code. Coffee. Playlist" navTitle="Riffs." />
+	<section class="my-16 bg-white/70 p-16 py-10 rounded-2xl text-black">
+		<ul class="p-2 space-y-2 max-h-[500px] overflow-scroll">
+			{
+				data?.map((song) => {
+					return <PlaylistItem data={song.fields} />;
+				})
+			}
+		</ul>
+	</section>
 </Layout>
