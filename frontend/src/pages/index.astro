@@ -1,32 +1,31 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-import Hero
-	from "../components/Hero.astro";
-import Card
-	from "../components/Card.astro";
-import RecentlyAddedCard
-	from "../components/RecentlyAddedCard.astro";
-import RecentBlogArticles
-	from "../components/RecentBlogArticles.astro";
-import SubscribeToNewsletter
-	from "../components/SubscribeToNewsletter.astro";
+import Hero from '../components/Hero.astro';
+import Card from '../components/Card.astro';
+import RecentlyAddedCard from '../components/RecentlyAddedCard.astro';
+import RecentBlogArticles from '../components/RecentBlogArticles.astro';
+import SubscribeToNewsletter from '../components/SubscribeToNewsletter.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Hero title="Riffs. Code. Community." navTitle="Home."/>
+	<Hero title="Riffs. Code. Community." navTitle="Home." />
 	<section class="">
-		<ul class="flex justify-between items-center space-x-4">
-		<Card title="Playlist" href="music"/>
-			<Card title="Coming Soon" href="/"/>
-			<Card title="Coming Soon" href="/"/>
+		<ul
+			class="flex lg:flex-row flex-col lg:justify-between items-center space-y-2 lg:space-y-0 lg:space-x-4"
+		>
+			<Card title="Playlist" href="music" />
+			<Card title="Coming Soon" href="/" />
+			<Card title="Coming Soon" href="/" />
 		</ul>
 	</section>
 	<section class="my-16 bg-white/70 p-16 py-10 rounded-2xl text-black">
-		<h2 class=" text-5xl font-extralight text-stone-500">Hot off the Press ☕️</h2>
+		<h2 class="text-5xl font-extralight text-stone-500">
+			Hot off the Press ☕️
+		</h2>
 		<!--<ul class="p-5 space-y-2">-->
 		<!--	<RecentlyAddedCard/>-->
 		<!--	<RecentlyAddedCard/>-->
@@ -36,9 +35,7 @@ import SubscribeToNewsletter
 		<h2 class="text-5xl my-32 font-extralight text-orange-500">Coming Soon!</h2>
 	</section>
 	<section class="my-16 bg-white/70 p-16 py-10 rounded-2xl text-black">
-		<h2 class=" text-5xl font-extralight text-stone-500">Recent Articles️</h2>
-		<RecentBlogArticles/>
-
+		<h2 class="text-5xl font-extralight text-stone-500">Recent Articles️</h2>
+		<RecentBlogArticles />
 	</section>
-
 </Layout>

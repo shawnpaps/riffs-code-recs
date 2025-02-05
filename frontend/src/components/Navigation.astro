@@ -1,14 +1,66 @@
 ---
+
 ---
-<nav class="p-4 flex justify-between container group transition-all duration-200 ease-linear mx-auto hover:bg-white/70 rounded-full px-16">
-    <a href="/" class="block">
-        <img class="w-32 object-cover rounded-xl" src="/RiffsCodeCoffee.png" alt="RiffsCodeCoffee" />
-    </a>
-    <ul class="flex items-center space-x-4 text-xl font-light ">
-        <li class="hover:text-blue-600 hover:font-semibold transition-all"><a href="music">Music</a></li>
-        <li class="hover:text-blue-600 hover:font-semibold transition-all"><a href="/">Tech</a></li>
-        <li class="hover:text-blue-600 hover:font-semibold transition-all"><a href="/">Stuff</a></li>
-    </ul>
-    <ul class="flex items-center">
-<li><button id="subscribe-button" class="btn rounded-full bg-indigo-500 btn-lg hover:bg-white hover:text-black transition-all">Join the Community</button></li>    </ul>
+
+<nav
+	class="p-4 lg:flex justify-between container group transition-all duration-200 ease-linear mx-auto hover:bg-white/70 rounded-full px-16 hidden"
+>
+	<a href="/" class="block">
+		<img
+			class="w-32 object-cover rounded-xl"
+			src="/RiffsCodeCoffee.png"
+			alt="RiffsCodeCoffee"
+		/>
+	</a>
+	<ul class="flex items-center space-x-4 text-xl font-light">
+		<li class="hover:text-blue-600 hover:font-semibold transition-all">
+			<a href="music">Music</a>
+		</li>
+		<li class="hover:text-blue-600 hover:font-semibold transition-all">
+			<a href="/">Tech</a>
+		</li>
+		<li class="hover:text-blue-600 hover:font-semibold transition-all">
+			<a href="/">Stuff</a>
+		</li>
+	</ul>
+	<ul class="flex items-center">
+		<li>
+			<button
+				id="subscribe-button"
+				class="btn rounded-full bg-indigo-500 btn-lg hover:bg-white hover:text-black transition-all"
+				>Join the Community</button
+			>
+		</li>
+	</ul>
+</nav>
+<nav class="navbar lg:hidden">
+	<div class="flex-1">
+		<a href="/" class="text-xl font-bold">Riffs. Code. Community.</a>
+	</div>
+	<ul class="flex items-center">
+		<li>
+			<a
+				href="join"
+				class="btn rounded-full bg-indigo-500 btn-lg hover:bg-white hover:text-black transition-all"
+				>Join the Community</a
+			>
+		</li>
+	</ul>
+	<!-- <div class="flex-none">
+		<button class="btn btn-square btn-ghost">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				class="inline-block h-5 w-5 stroke-current"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+				></path>
+			</svg>
+		</button>
+	</div> -->
 </nav>
