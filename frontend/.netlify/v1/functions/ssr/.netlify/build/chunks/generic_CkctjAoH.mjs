@@ -390,7 +390,7 @@ const baseService = {
     Object.entries(params).forEach(([param, key]) => {
       options[key] && searchParams.append(param, options[key].toString());
     });
-    const imageEndpoint = joinPaths("http://localhost:4321", imageConfig.endpoint.route);
+    const imageEndpoint = joinPaths("https://community.riffscodecoffee.com", imageConfig.endpoint.route);
     return `${imageEndpoint}?${searchParams}`;
   },
   parseURL(url) {
@@ -1268,7 +1268,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp_B7gyt2Xd.mjs'
+      './sharp_8L2h5kgJ.mjs'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;
