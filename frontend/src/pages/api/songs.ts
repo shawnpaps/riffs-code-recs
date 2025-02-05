@@ -32,7 +32,6 @@ export const GET: APIRoute = async ({ request }) => {
 		}
 
 		const data = await response.json();
-		console.log(data);
 
 		return new Response(JSON.stringify(data.items), {
 			status: 200,
