@@ -1,9 +1,8 @@
 ---
-import Navigation
-	from "../components/Navigation.astro";
-import SubscribeModal
-	from "../components/SubscribeModal.astro";
+import Navigation from '../components/Navigation.astro';
+import SubscribeModal from '../components/SubscribeModal.astro';
 ---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -13,16 +12,13 @@ import SubscribeModal
 		<meta name="generator" content={Astro.generator} />
 		<title>Riffs. Code. Community. | Home</title>
 	</head>
-	<body class="bg-gradient-to-r from-cyan-600 to-blue-600 text-black">
-	<header class="py-8">
-		<Navigation/>
-	</header>
-	<main class="container mx-auto min-h-screen ">
-		<slot />
-	</main>
-	<SubscribeModal/>
+	<body class="text-white">
+		<header class="py-8">
+			<Navigation />
+		</header>
+		<main class="container mx-auto min-h-screen">
+			<slot />
+		</main>
+		<SubscribeModal />
 	</body>
 </html>
-
-
-
