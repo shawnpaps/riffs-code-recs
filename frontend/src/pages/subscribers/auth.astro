@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 ---
 
-<Layout>
+<Layout title="The Vault">
 	<div class="flex flex-col items-center">
 		<h1 class="text-4xl max-w-xl font-semibold text-center">
 			You found <br />
@@ -14,6 +14,7 @@ import Layout from '@/layouts/Layout.astro';
 			</p>
 			<p class="text-4xl">But You Gotta Be a Newsletter Subscriber 👀</p>
 			<form
+				id="verifyForm"
 				class="w-full max-w-lg mx-auto mt-8 p-6 bg-gray-900/50 rounded-lg shadow-md"
 			>
 				<label for="email" class="block text-white font-medium mb-2"
@@ -29,16 +30,44 @@ import Layout from '@/layouts/Layout.astro';
 				/>
 				<button
 					type="submit"
-					class="w-full btn btn-info mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-300"
+					class="w-full mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-300"
 				>
 					Verify Email
 				</button>
 			</form>
 			<a
 				href="/join"
-				class="text-indigo-200 opacity-20 hover:opacity-100 transition-all ease-in duration-300"
+				class="mt-4 text-indigo-200 opacity-20 hover:opacity-100 transition-all ease-in duration-300"
 				>Not a subscriber? Let's fix that. It's free.</a
 			>
 		</div>
 	</div>
 </Layout>
+
+<script>
+	import { verifyUser } from '@/lib/functions';
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const form = document.getElementById('verifyForm');
+
+		if (form) {
+			form.addEventListener('submit', async (event) => {
+				event.preventDefault();
+				const emailInput = form.querySelector('#email');
+
+				if (emailInput) {
+					const email = emailInput.value;
+					console.log(email);
+					try {
+						const response = await verifyUser(email);
+						console.log(response);
+						// Add logic to handle successful verification here
+					} catch (error) {
+						console.error('Verification failed:', error);
+						// Add error handling here
+					}
+				}
+			});
+		}
+	});
+</script>

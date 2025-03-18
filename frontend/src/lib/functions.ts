@@ -63,3 +63,21 @@ export const subscribeUser = async (email: string) => {
 		return null;
 	}
 };
+
+export const verifyUser = async (email: string) => {
+	try {
+		const url = `${baseURL}/api/verify?email=${encodeURIComponent(email)}`;
+		console.log(url);
+		const response = await fetch(url);
+		if (!response.ok) {
+			throw new Error(
+				`API request failed with status ${response.status}: ${response.statusText}`
+			);
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Verify user:', error);
+		return null;
+	}
+};

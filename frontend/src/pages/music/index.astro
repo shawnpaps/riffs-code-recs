@@ -5,14 +5,21 @@ import PlaylistItem from '../../components/PlaylistItem.astro';
 import { fetchAllFromTable } from '../../lib/functions';
 
 const data = await fetchAllFromTable('songs');
+
+const sortedData = data?.sort((a, b) => {
+	return new Date(b.sys.createdAt) - new Date(a.sys.createdAt);
+});
 ---
 
 <Layout>
-	<Hero title="The Official Riffs. Code. Coffee. Playlist" navTitle="Riffs." />
-	<section class="my-16 bg-white/20 lg:p-16 py-5 rounded-2xl text-black">
+	<section class="p-5 rounded-2xl text-stone-200">
+		<div class="my-16">
+			<h1 class="text-4xl font-light">The Official</h1>
+			<h2 class="text-7xl font-semibold">Riffs. Code. Coffee. Playlist</h2>
+		</div>
 		<ul class="p-2 space-y-2 max-h-[800px] overflow-y-scroll">
 			{
-				data?.map((song) => {
+				sortedData?.map((song) => {
 					return <PlaylistItem data={song.fields} />;
 				})
 			}
