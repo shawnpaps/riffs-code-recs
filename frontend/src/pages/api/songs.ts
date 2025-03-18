@@ -1,14 +1,14 @@
 import type { APIRoute } from 'astro';
 import {
-	baseURL,
 	contentfulAccessToken,
 	contentfulSpaceID,
 	contentfulURL,
-} from '../../lib/utils.ts';
+} from '../../lib/contentful.js';
 
 export const GET: APIRoute = async ({ request }) => {
 	try {
 		const token = contentfulAccessToken;
+		console.log(token);
 		if (!token) {
 			throw new Error(
 				'Contentful Token is not defined in the environment variables.'

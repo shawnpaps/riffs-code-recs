@@ -6,36 +6,86 @@ import Card from '../components/Card.astro';
 import RecentlyAddedCard from '../components/RecentlyAddedCard.astro';
 import RecentBlogArticles from '../components/RecentBlogArticles.astro';
 import SubscribeToNewsletter from '../components/SubscribeToNewsletter.astro';
+import { fetchAllFromTable } from '@/lib/functions';
+
+const allSongData = await fetchAllFromTable('songs');
+
+const prevDate = new Date();
+prevDate.setDate(prevDate.getDate() - 14);
+
+const recentRiffs = allSongData
+	?.filter((song) => {
+		const songDate = song.sys.createdAt;
+
+		return songDate >= prevDate;
+	})
+	.sort((a, b) => {
+		return (
+			new Date(b.sys.createdAt).getTime() - new Date(a.sys.createdAt).getTime()
+		);
+	});
+
+console.log(recentRiffs);
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Hero title="Riffs. Code. Community." navTitle="Home." />
-	<section class="">
-		<ul
-			class="flex lg:flex-row flex-col lg:justify-between items-center space-y-2 lg:space-y-0 lg:space-x-4"
-		>
-			<Card title="Playlist" href="music" />
-			<Card title="Coming Soon" href="/" />
-			<Card title="Coming Soon" href="/" />
-		</ul>
+	<section class="h-[20rem] flex items-center justify-between px-8">
+		<h1 class="text-7xl text-stone-200 font-semibold">
+			Welcome to Riffs. Code. Community.
+		</h1>
+		<div>
+			<p class="text-stone-200 font-light max-w-lg">
+				Riffs Code Community is the official community for the Riffs. Code.
+				Coffee. Newsletter. Here, you'll find all of the latest news and updates
+				from the newsletter, as well as music recommendations, tech recs and
+				tips, and more.
+			</p>
+			<a class="btn mt-4 btn-success">Join the Riffs. Code. Community.</a>
+		</div>
 	</section>
-	<section class="my-16 bg-white/20 p-16 py-10 rounded-2xl text-black">
-		<h2 class="text-5xl font-extralight text-stone-500">
-			Hot off the Press ☕️
+	<section class="my-16 p-16 py-10 rounded-2xl text-black container mx-auto">
+		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
+			Recent Riffs.
 		</h2>
-		<!--<ul class="p-5 space-y-2">-->
-		<!--	<RecentlyAddedCard/>-->
-		<!--	<RecentlyAddedCard/>-->
-		<!--	<RecentlyAddedCard/>-->
-		<!--	<RecentlyAddedCard/>-->
-		<!--</ul>-->
-		<h2 class="text-5xl my-32 font-extralight text-orange-500">Coming Soon!</h2>
+		<div>
+			{
+				recentRiffs?.map((song) => {
+					return (
+						<div class="bg-white/20">
+							<h3>{song.fields.title}</h3>
+							<p>{song.fields.description}</p>
+						</div>
+					);
+				})
+			}
+		</div>
 	</section>
-	<section class="my-16 bg-white/20 p-16 py-10 rounded-2xl text-black">
-		<h2 class="text-5xl font-extralight text-stone-200">Recent Articles️</h2>
+	<section class="my-16 p-16 py-10 rounded-2xl text-black container mx-auto">
+		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
+			Tech Recs.
+		</h2>
+	</section>
+
+	<section class="my-16 p-16 py-10 rounded-2xl text-black">
+		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
+			Reads
+		</h2>
 		<RecentBlogArticles />
+	</section>
+	<section class="my-16 p-16 py-10 rounded-2xl text-black">
+		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
+			Stats.
+		</h2>
+		<div>
+			<div
+				class="text-xl text-center font-semibold text-stone-200 flex flex-col gap-2"
+			>
+				<span>{allSongData?.length}</span>
+				<span class="block text-2xl">Riffs</span>
+			</div>
+		</div>
 	</section>
 </Layout>

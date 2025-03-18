@@ -1,6 +1,8 @@
 ---
-import Navigation from '../components/Navigation.astro';
+import SubscribeToNewsletter from '@/components/SubscribeToNewsletter.astro';
 import SubscribeModal from '../components/SubscribeModal.astro';
+import '../styles/globals.css';
+import { AppDrawer } from '@/components/AppDrawer';
 ---
 
 <!doctype html>
@@ -12,9 +14,12 @@ import SubscribeModal from '../components/SubscribeModal.astro';
 		<meta name="generator" content={Astro.generator} />
 		<title>Riffs. Code. Community. | Home</title>
 	</head>
-	<body class="text-white">
-		<header class="py-8">
-			<Navigation />
+	<body class="text-white bg-black">
+		<header class="p-8">
+			<a class="hover:opacity-80" href="/">
+				<h1 class="text-4xl font-light">Riffs. Code. Community.</h1>
+			</a>
+			<AppDrawer client:load />
 		</header>
 		<main class="container mx-auto min-h-screen">
 			<slot />
