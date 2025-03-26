@@ -17,11 +17,9 @@ console.log(allTechnologies);
 	<section>
 		<ul class="grid lg:grid-cols-4 gap-4 grid-cols-2">
 			{
-				allTechnologies.map((technology) => {
+				allTechnologies?.map((technology) => {
 					return (
-						<li
-							class="w-[20rem] h-[20rem] bg-white/20 rounded-2xl hover:-translate-y-4 duration-200 ease-linear"
-							key={technology.id}>
+						<li class="w-[20rem] h-[20rem] bg-white/20 rounded-2xl hover:-translate-y-4 duration-200 ease-linear">
 							<div class="w-full h-full relative block">
 								<img
 									class="object-cover w-full h-full rounded-2xl "

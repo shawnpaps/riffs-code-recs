@@ -47,27 +47,25 @@ import Layout from '@/layouts/Layout.astro';
 <script>
 	import { verifyUser } from '@/lib/functions';
 
-	document.addEventListener('DOMContentLoaded', () => {
-		const form = document.getElementById('verifyForm');
-
-		if (form) {
-			form.addEventListener('submit', async (event) => {
-				event.preventDefault();
-				const emailInput = form.querySelector('#email');
-
-				if (emailInput) {
-					const email = emailInput.value;
-					console.log(email);
-					try {
-						const response = await verifyUser(email);
-						console.log(response);
-						// Add logic to handle successful verification here
-					} catch (error) {
-						console.error('Verification failed:', error);
-						// Add error handling here
+	const form = document.getElementById('verifyForm');
+	if (form) {
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			const emailInput = form.querySelector('#email') as HTMLInputElement;
+			if (emailInput) {
+				const email = emailInput.value;
+				try {
+					const response = await verifyUser(email);
+					if (response) {
+						window.location.href = '/subscribers/vault';
+					} else {
+						alert('Email not found in subscriber list');
 					}
+				} catch (error) {
+					console.error('Verification failed:', error);
+					alert('An error occurred while verifying your email');
 				}
-			});
-		}
-	});
+			}
+		});
+	}
 </script>
