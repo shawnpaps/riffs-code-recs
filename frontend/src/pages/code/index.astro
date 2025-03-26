@@ -1,0 +1,46 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { fetchAllFromTable } from '@/lib/functions';
+
+const allTechnologies = await fetchAllFromTable('technologies');
+console.log(allTechnologies);
+---
+
+<Layout title="Code">
+	<section class="h-[20rem] flex items-center justify-between px-8">
+		<h1 class="text-7xl font-bold">Code & Tech</h1>
+		<p class="text-2xl max-w-lg">
+			Gadgets, gear, gizmos, frameworks, and more. If I posted about it, it's
+			here!
+		</p>
+	</section>
+	<section>
+		<ul class="grid lg:grid-cols-4 gap-4 grid-cols-2">
+			{
+				allTechnologies.map((technology) => {
+					return (
+						<li
+							class="w-[20rem] h-[20rem] bg-white/20 rounded-2xl hover:-translate-y-4 duration-200 ease-linear"
+							key={technology.id}>
+							<div class="w-full h-full relative block">
+								<img
+									class="object-cover w-full h-full rounded-2xl "
+									src={technology.fields.thumbnailUrl}
+								/>
+								<div class="absolute bottom-0 left-0 z-10 p-4 w-full bg-black ">
+									<h4 class="text-2xl font-bold">{technology.fields.name}</h4>
+									<p class="text-sm">{technology.fields.description}</p>
+									<div class="mt-4">
+										<a class="btn btn-primary" href={technology.fields.url}>
+											Check out {technology.fields.name}
+										</a>
+									</div>
+								</div>
+							</div>
+						</li>
+					);
+				})
+			}
+		</ul>
+	</section>
+</Layout>

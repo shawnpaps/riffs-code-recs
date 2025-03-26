@@ -17,7 +17,7 @@ const navItems: NavItem[] = [
 	{ title: 'Home', href: '/' },
 	{ title: 'Music', href: '/music' },
 	{ title: 'Tech', href: '/code' },
-	{ title: 'The Vault', href: '/subscribers/auth' },
+	{ title: 'The Vault', href: '/subscribers/vault' },
 ];
 
 export function AppDrawer() {

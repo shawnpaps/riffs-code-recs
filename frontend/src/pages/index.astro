@@ -9,6 +9,7 @@ import SubscribeToNewsletter from '../components/SubscribeToNewsletter.astro';
 import { fetchAllFromTable } from '@/lib/functions';
 
 const allSongData = await fetchAllFromTable('songs');
+const allTechnologyData = await fetchAllFromTable('technologies');
 
 const prevDate = new Date();
 prevDate.setDate(prevDate.getDate() - 30);
@@ -25,6 +26,17 @@ const recentRiffs = allSongData
 		);
 	});
 
+const recentTechnologies = allTechnologyData
+	?.filter((technology) => {
+		const technologyDate = new Date(technology.sys.createdAt);
+
+		return technologyDate >= prevDate;
+	})
+	.sort((a, b) => {
+		return (
+			new Date(b.sys.createdAt).getTime() - new Date(a.sys.createdAt).getTime()
+		);
+	});
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
@@ -41,7 +53,9 @@ const recentRiffs = allSongData
 				from the newsletter, as well as music recommendations, tech recs and
 				tips, and more.
 			</p>
-			<a class="btn mt-4 btn-success">Join the Riffs. Code. Community.</a>
+			<a href="/join" class="btn mt-4 btn-outline btn-info"
+				>Join the Riffs. Code. Community.</a
+			>
 		</div>
 	</section>
 	<section class="my-16 p-16 py-10 rounded-2xl text-black container mx-auto">
@@ -73,8 +87,26 @@ const recentRiffs = allSongData
 	</section>
 	<section class="my-16 p-16 py-10 rounded-2xl text-black container mx-auto">
 		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
-			Tech Recs.
+			New Tech Recs.
 		</h2>
+		<ul class="grid grid-cols-4 gap-4 mt-4">
+			{
+				recentTechnologies?.map((technology) => {
+					return (
+						<li class="bg-gradient-to-t from-black to-stone-200/50 col-span-1 h-[20rem] flex flex-col group hover:bg-black/40 hover:justify-center justify-between p-4 transition-all ease-in duration-200 text-white rounded-2xl">
+							<a href={technology.fields.url} target="_blank">
+								<img
+									class="w-full h-56 object-cover rounded-2xl"
+									src={technology.fields.thumbnailUrl}
+								/>
+								<h3 class="text-2xl font-semibold">{technology.fields.name}</h3>
+								<p class="text-sm">{technology.fields.description}</p>
+							</a>
+						</li>
+					);
+				})
+			}
+		</ul>
 	</section>
 
 	<section class="my-16 p-16 py-10 rounded-2xl text-black">
