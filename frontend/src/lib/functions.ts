@@ -1,4 +1,4 @@
-import { baseURL } from './utils.ts';
+import { baseURL } from './contentful.js';
 
 export const fetchAllFromTable = async (tableName: string) => {
 	try {
@@ -22,6 +22,7 @@ export const fetchAllFromTable = async (tableName: string) => {
 export const fetchAllBlogPosts = async () => {
 	try {
 		const url = `${baseURL}/api/posts`;
+		console.log(url);
 		const response = await fetch(url, {});
 		if (!response.ok) {
 			throw new Error(
@@ -37,7 +38,7 @@ export const fetchAllBlogPosts = async () => {
 	}
 };
 
-export const subscribeUser = async (email) => {
+export const subscribeUser = async (email: string) => {
 	try {
 		const url = `${baseURL}/api/subscribe`;
 		const response = await fetch(url, {
@@ -59,6 +60,24 @@ export const subscribeUser = async (email) => {
 		return data;
 	} catch (error) {
 		console.error('Subscribe user:', error);
+		return null;
+	}
+};
+
+export const verifyUser = async (email: string) => {
+	try {
+		const url = `${baseURL}/api/verify?email=${encodeURIComponent(email)}`;
+		console.log(url);
+		const response = await fetch(url);
+		if (!response.ok) {
+			throw new Error(
+				`API request failed with status ${response.status}: ${response.statusText}`
+			);
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Verify user:', error);
 		return null;
 	}
 };

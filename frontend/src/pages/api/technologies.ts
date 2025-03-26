@@ -15,7 +15,7 @@ export const GET: APIRoute = async ({ request }) => {
 			);
 		}
 
-		const url = `${contentfulURL}/spaces/${contentfulSpaceID}/environments/master/entries?access_token=${token}&content_type=songs`;
+		const url = `${contentfulURL}/spaces/${contentfulSpaceID}/environments/master/entries?access_token=${token}&content_type=technologies`;
 		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
