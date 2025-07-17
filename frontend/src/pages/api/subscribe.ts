@@ -1,7 +1,5 @@
 import type { APIRoute } from 'astro';
 
-export const prerender = false;
-
 // Utility function to parse `application/x-www-form-urlencoded`
 const parseFormData = async (request: Request) => {
 	const text = await request.text();

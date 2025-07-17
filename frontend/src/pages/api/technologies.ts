@@ -1,27 +1,22 @@
 import type { APIRoute } from 'astro';
-import {
-	contentfulAccessToken,
-	contentfulSpaceID,
-	contentfulURL,
-} from '../../lib/contentful.js';
 
 export const GET: APIRoute = async ({ request }) => {
 	try {
-		const token = contentfulAccessToken;
-		console.log(token);
-		if (!token) {
+		const token = import.meta.env.CONTENTFUL_TOKEN;
+		const spaceID = import.meta.env.CONTENTFUL_SPACE_ID;
+
+		if (!token || !spaceID) {
 			throw new Error(
-				'Contentful Token is not defined in the environment variables.'
+				'Contentful credentials are not defined in the environment variables.'
 			);
 		}
 
-		const url = `${contentfulURL}/spaces/${contentfulSpaceID}/environments/master/entries?access_token=${token}&content_type=technologies`;
+		const url = `https://cdn.contentful.com/spaces/${spaceID}/environments/master/entries?access_token=${token}&content_type=technologies`;
 		const response = await fetch(url, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json',
-				Authorization: `Bearer ${token}`,
 			},
 		});
 

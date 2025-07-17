@@ -7,7 +7,9 @@ import { fetchAllFromTable } from '../../lib/functions';
 const data = await fetchAllFromTable('songs');
 
 const sortedData = data?.sort((a, b) => {
-	return new Date(b.sys.createdAt) - new Date(a.sys.createdAt);
+	return (
+		new Date(b.sys.createdAt).getTime() - new Date(a.sys.createdAt).getTime()
+	);
 });
 ---
 

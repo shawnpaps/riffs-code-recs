@@ -6,10 +6,10 @@ import Card from '../components/Card.astro';
 import RecentlyAddedCard from '../components/RecentlyAddedCard.astro';
 import RecentBlogArticles from '../components/RecentBlogArticles.astro';
 import SubscribeToNewsletter from '../components/SubscribeToNewsletter.astro';
-import { fetchAllFromTable } from '@/lib/functions';
+import { fetchSongs, fetchTechnologies } from '@/lib/functions';
 
-const allSongData = await fetchAllFromTable('songs');
-const allTechnologyData = await fetchAllFromTable('technologies');
+const allSongData = await fetchSongs();
+const allTechnologyData = await fetchTechnologies();
 
 const prevDate = new Date();
 prevDate.setDate(prevDate.getDate() - 30);
