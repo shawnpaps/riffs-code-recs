@@ -1,58 +1,57 @@
 // Fetch technologies from Contentful
 export const fetchTechnologies = async () => {
 	try {
-		const response = await fetch('/api/technologies');
+		// Use absolute URL for server-side compatibility
+		const baseURL = import.meta.env.SITE || 'http://localhost:4321';
+		const response = await fetch(`${baseURL}/api/technologies`);
 		if (!response.ok) {
-			throw new Error(
-				`API request failed with status ${response.status}: ${response.statusText}`
-			);
+			throw new Error(`API request failed with status ${response.status}`);
 		}
-		const data = await response.json();
-		return data;
+		return await response.json();
 	} catch (error) {
 		console.error('Error fetching technologies:', error);
-		return null;
+		return [];
 	}
 };
 
 // Fetch songs from Contentful
 export const fetchSongs = async () => {
 	try {
-		const response = await fetch('/api/songs');
+		// Use absolute URL for server-side compatibility
+		const baseURL = import.meta.env.SITE || 'http://localhost:4321';
+		const response = await fetch(`${baseURL}/api/songs`);
 		if (!response.ok) {
-			throw new Error(
-				`API request failed with status ${response.status}: ${response.statusText}`
-			);
+			throw new Error(`API request failed with status ${response.status}`);
 		}
-		const data = await response.json();
-		return data;
+		return await response.json();
 	} catch (error) {
 		console.error('Error fetching songs:', error);
-		return null;
+		return [];
 	}
 };
 
 // Fetch blog posts from Beehiiv
 export const fetchAllBlogPosts = async () => {
 	try {
-		const response = await fetch('/api/posts');
+		// Use absolute URL for server-side compatibility
+		const baseURL = import.meta.env.SITE || 'http://localhost:4321';
+		const response = await fetch(`${baseURL}/api/posts`);
 		if (!response.ok) {
-			throw new Error(
-				`API request failed with status ${response.status}: ${response.statusText}`
-			);
+			throw new Error(`API request failed with status ${response.status}`);
 		}
-		const data = await response.json();
-		return data;
+		return await response.json();
 	} catch (error) {
 		console.error('Error fetching blog posts:', error);
-		return null;
+		return [];
 	}
 };
 
 // Subscribe user to newsletter
 export const subscribeUser = async (email: string) => {
 	try {
-		const response = await fetch('/api/subscribe', {
+		// Use absolute URL for server-side compatibility
+		const baseURL = import.meta.env.SITE || 'http://localhost:4321';
+		const response = await fetch(`${baseURL}/api/subscribe`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -60,9 +59,7 @@ export const subscribeUser = async (email: string) => {
 			body: JSON.stringify({ email }),
 		});
 		if (!response.ok) {
-			throw new Error(
-				`API request failed with status ${response.status}: ${response.statusText}`
-			);
+			throw new Error(`API request failed with status ${response.status}`);
 		}
 		return response;
 	} catch (error) {
@@ -74,13 +71,13 @@ export const subscribeUser = async (email: string) => {
 // Verify user subscription
 export const verifyUser = async (email: string) => {
 	try {
+		// Use absolute URL for server-side compatibility
+		const baseURL = import.meta.env.SITE || 'http://localhost:4321';
 		const response = await fetch(
-			`/api/verify?email=${encodeURIComponent(email)}`
+			`${baseURL}/api/verify?email=${encodeURIComponent(email)}`
 		);
 		if (!response.ok) {
-			throw new Error(
-				`API request failed with status ${response.status}: ${response.statusText}`
-			);
+			throw new Error(`API request failed with status ${response.status}`);
 		}
 		const data = await response.json();
 		return data;

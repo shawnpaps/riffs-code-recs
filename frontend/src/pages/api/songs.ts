@@ -4,6 +4,7 @@ export const GET: APIRoute = async ({ request }) => {
 	try {
 		const token = import.meta.env.CONTENTFUL_TOKEN;
 		const spaceID = import.meta.env.CONTENTFUL_SPACE_ID;
+		console.log(token, spaceID);
 
 		if (!token || !spaceID) {
 			throw new Error(

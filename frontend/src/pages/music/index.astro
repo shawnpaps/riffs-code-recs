@@ -2,9 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
 import PlaylistItem from '../../components/PlaylistItem.astro';
-import { fetchAllFromTable } from '../../lib/functions';
+import { fetchSongs } from '../../lib/functions';
 
-const data = await fetchAllFromTable('songs');
+const data = await fetchSongs();
 
 const sortedData = data?.sort((a, b) => {
 	return (

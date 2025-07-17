@@ -9,6 +9,7 @@ import SubscribeToNewsletter from '../components/SubscribeToNewsletter.astro';
 import { fetchSongs, fetchTechnologies } from '@/lib/functions';
 
 const allSongData = await fetchSongs();
+
 const allTechnologyData = await fetchTechnologies();
 
 const prevDate = new Date();
@@ -64,25 +65,30 @@ const recentTechnologies = allTechnologyData
 		</h2>
 		<ul class="grid grid-cols-4 gap-4 mt-4">
 			{
-				recentRiffs?.map((song) => {
-					return (
-						<li class="bg-gradient-to-t from-black to-stone-200/50 col-span-1 h-[20rem] flex flex-col group hover:bg-black/40 hover:justify-center justify-end p-4 transition-all ease-in duration-200 text-white rounded-2xl">
-							<a href={song.fields.appleMusicUrl} target="_blank">
-								<h3 class="text-2xl font-semibold">{song.fields.title}</h3>
-								<p class="text-sm">{song.fields.artist}</p>
-								<p class="text-sm font-semibold text-red-300 invisible group-hover:visible">
-									Listen on Apple Music
-								</p>
-							</a>
-						</li>
-					);
-				})
+				recentRiffs && recentRiffs.length > 0 ? (
+					recentRiffs?.map((song) => {
+						console.log(song);
+						return (
+							<li class="bg-gradient-to-t from-black to-stone-200/50 col-span-1 h-[20rem] flex flex-col group hover:bg-black/40 hover:justify-center justify-end p-4 transition-all ease-in duration-200 text-white rounded-2xl">
+								<a href={song.fields.appleMusicUrl} target="_blank">
+									<h3 class="text-2xl font-semibold">{song.fields.title}</h3>
+									<p class="text-sm">{song.fields.artist}</p>
+									<p class="text-sm font-semibold text-red-300 invisible group-hover:visible">
+										Listen on Apple Music
+									</p>
+								</a>
+							</li>
+						);
+					})
+				) : (
+					<li class="text-white/50 text-left flex flex-col justify-center text-2xl hover:text-white transition-all ease-in duration-200 w-full col-span-4 font-extralight">
+						No recent riffs.{' '}
+						<a href="/music" class="text-white">
+							Check out the playlist.
+						</a>
+					</li>
+				)
 			}
-			<li
-				class="text-white/50 text-center flex flex-col justify-center text-2xl hover:text-white transition-all ease-in duration-200"
-			>
-				<a href="/music">More Music...</a>
-			</li>
 		</ul>
 	</section>
 	<section class="my-16 p-16 py-10 rounded-2xl text-black container mx-auto">
@@ -91,41 +97,49 @@ const recentTechnologies = allTechnologyData
 		</h2>
 		<ul class="grid grid-cols-4 gap-4 mt-4">
 			{
-				recentTechnologies?.map((technology) => {
-					return (
-						<li class="bg-gradient-to-t from-black to-stone-200/50 col-span-1 h-[20rem] flex flex-col group hover:bg-black/40 hover:justify-center justify-between p-4 transition-all ease-in duration-200 text-white rounded-2xl">
-							<a href={technology.fields.url} target="_blank">
-								<img
-									class="w-full h-56 object-cover rounded-2xl"
-									src={technology.fields.thumbnailUrl}
-								/>
-								<h3 class="text-2xl font-semibold">{technology.fields.name}</h3>
-								<p class="text-sm">{technology.fields.description}</p>
-							</a>
-						</li>
-					);
-				})
+				recentTechnologies && recentTechnologies.length > 0 ? (
+					recentTechnologies?.map((technology) => {
+						return (
+							<li class="bg-gradient-to-t from-black to-stone-200/50 col-span-1 h-[20rem] flex flex-col group hover:bg-black/40 hover:justify-center justify-between p-4 transition-all ease-in duration-200 text-white rounded-2xl">
+								<a href={technology.fields.url} target="_blank">
+									<img
+										class="w-full h-56 object-cover rounded-2xl"
+										src={technology.fields.thumbnailUrl}
+									/>
+									<h3 class="text-2xl font-semibold">
+										{technology.fields.name}
+									</h3>
+									<p class="text-sm">{technology.fields.description}</p>
+								</a>
+							</li>
+						);
+					})
+				) : (
+					<li class="text-white/50 text-left flex flex-col justify-center text-2xl hover:text-white transition-all ease-in duration-200 w-full col-span-4 font-extralight">
+						No recent tech recs.
+					</li>
+				)
 			}
 		</ul>
-	</section>
 
-	<section class="my-16 p-16 py-10 rounded-2xl text-black">
-		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
-			Latest Reads.
-		</h2>
-		<RecentBlogArticles />
-	</section>
-	<section class="my-16 p-16 py-10 rounded-2xl text-black">
-		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
-			Stats.
-		</h2>
-		<div>
-			<div
-				class="text-xl text-center font-semibold text-stone-200 flex flex-col gap-2"
-			>
-				<span>{allSongData?.length}</span>
-				<span class="block text-2xl">Riffs</span>
+		<section class="my-32">
+			<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
+				Latest Reads.
+			</h2>
+			<RecentBlogArticles />
+		</section>
+		<section class="my-16 p-16 py-10 rounded-2xl text-black">
+			<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
+				Stats.
+			</h2>
+			<div>
+				<div
+					class="text-xl text-center font-semibold text-stone-200 flex flex-col gap-2"
+				>
+					<span>{allSongData?.length}</span>
+					<span class="block text-2xl">Riffs</span>
+				</div>
 			</div>
-		</div>
+		</section>
 	</section>
 </Layout>
