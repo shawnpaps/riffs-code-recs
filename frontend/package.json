@@ -9,15 +9,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/netlify": "^6.2.3",
-    "@astrojs/react": "^4.2.1",
+    "@astrojs/netlify": "^6.6.4",
+    "@astrojs/react": "^4.4.2",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@types/react": "^19.0.11",
     "@types/react-dom": "^19.0.4",
-    "astro": "^5.5.2",
+    "astro": "^5.17.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "daisyui": "5.0.0-beta.4",
@@ -31,7 +31,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@astrojs/tailwind": "^6.0.0",
+    "@astrojs/tailwind": "^6.0.2",
     "@types/node": "^22.13.10"
   }
 }

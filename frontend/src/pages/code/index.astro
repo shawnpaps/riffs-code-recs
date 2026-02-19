@@ -1,44 +1,412 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import { fetchAllFromTable } from '@/lib/functions';
+import Layout from "@/layouts/Layout.astro";
+import { fetchAllFromTable } from "@/lib/functions";
 
-const allTechnologies = await fetchAllFromTable('technologies');
-console.log(allTechnologies);
+const allTechnologies = await fetchAllFromTable("technologies");
+
+// Sort by creation date (newest first)
+const sortedTechnologies = allTechnologies?.sort((a, b) => {
+	return (
+		new Date(b.sys.createdAt).getTime() -
+		new Date(a.sys.createdAt).getTime()
+	);
+});
+
+const totalTech = sortedTechnologies?.length || 0;
+
+// Extract unique categories if they exist
+const categories = sortedTechnologies
+	? [
+			...new Set(
+				sortedTechnologies
+					.map((tech) => tech.fields.category)
+					.filter(Boolean),
+			),
+		]
+	: [];
 ---
 
-<Layout title="Code">
-	<section class="h-[20rem] flex items-center justify-between px-8">
-		<h1 class="text-7xl font-bold">Code & Tech</h1>
-		<p class="text-2xl max-w-lg">
-			Gadgets, gear, gizmos, frameworks, and more. If I posted about it, it's
-			here!
-		</p>
-	</section>
-	<section>
-		<ul class="grid lg:grid-cols-4 gap-4 grid-cols-2">
-			{
-				allTechnologies?.map((technology) => {
-					return (
-						<li class="w-[20rem] h-[20rem] bg-white/20 rounded-2xl hover:-translate-y-4 duration-200 ease-linear">
-							<div class="w-full h-full relative block">
-								<img
-									class="object-cover w-full h-full rounded-2xl "
-									src={technology.fields.thumbnailUrl}
-								/>
-								<div class="absolute bottom-0 left-0 z-10 p-4 w-full bg-black ">
-									<h4 class="text-2xl font-bold">{technology.fields.name}</h4>
-									<p class="text-sm">{technology.fields.description}</p>
-									<div class="mt-4">
-										<a class="btn btn-primary" href={technology.fields.url}>
-											Check out {technology.fields.name}
-										</a>
-									</div>
+<Layout
+	title="Code & Tech"
+	description="Explore our curated collection of tech tools, frameworks, and resources"
+>
+	<!-- Hero Section -->
+	<section
+		class="relative min-h-[60vh] flex items-center justify-center overflow-hidden"
+	>
+		<!-- Animated Background -->
+		<div class="absolute inset-0 spotlight opacity-40"></div>
+
+		<div class="container mx-auto px-6 relative z-10">
+			<div class="max-w-5xl mx-auto text-center space-y-8">
+				<!-- Title -->
+				<div class="space-y-4 fade-in">
+					<div
+						class="inline-flex items-center gap-3 glass px-6 py-3 rounded-full mb-6"
+					>
+						<svg
+							class="w-5 h-5 text-cyan-400"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+							></path>
+						</svg>
+						<span class="text-white/80 text-sm font-medium"
+							>Tech Recommendations</span
+						>
+					</div>
+
+					<h1
+						class="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight"
+					>
+						<span class="block gradient-text text-shadow-glow"
+							>Code & Tech</span
+						>
+						<span class="block text-white/90 font-light"
+							>Discoveries</span
+						>
+					</h1>
+				</div>
+
+				<!-- Description -->
+				<p
+					class="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto leading-relaxed slide-in-right delay-200"
+				>
+					Gadgets, gear, gizmos, frameworks, and more. If I posted
+					about it, it's here.
+				</p>
+
+				<!-- Stats -->
+				<div
+					class="flex flex-wrap gap-6 justify-center pt-8 fade-in-scale delay-300"
+				>
+					<div class="glass rounded-2xl px-8 py-4">
+						<div class="text-3xl font-bold gradient-text">
+							{totalTech}
+						</div>
+						<div class="text-white/60 text-sm mt-1">
+							Tech Recommendations
+						</div>
+					</div>
+					{
+						categories.length > 0 && (
+							<div class="glass rounded-2xl px-8 py-4">
+								<div class="text-3xl font-bold gradient-text">
+									{categories.length}
+								</div>
+								<div class="text-white/60 text-sm mt-1">
+									Categories
 								</div>
 							</div>
+						)
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Tech Grid Section -->
+	<section class="container mx-auto px-6 py-16">
+		<div class="max-w-7xl mx-auto">
+			<!-- Section Header -->
+			<div class="mb-12 fade-in" data-animate>
+				<div class="flex items-center justify-between mb-4">
+					<h2 class="text-4xl font-bold">
+						<span class="text-white/40 font-light">All</span>
+						<span class="gradient-text">Recommendations</span>
+					</h2>
+				</div>
+				<div class="h-1 w-32 gradient-bg rounded-full"></div>
+			</div>
+
+			<!-- Tech Grid -->
+			<ul
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+			>
+				{
+					sortedTechnologies?.map((technology, index) => (
+						<li
+							class="group relative glass rounded-2xl overflow-hidden card-hover shimmer h-full flex flex-col"
+							style={`animation-delay: ${index * 50}ms`}
+							data-animate
+						>
+							<a
+								href={technology.fields.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="flex flex-col h-full"
+							>
+								{/* Image Container */}
+								<div class="relative h-56 overflow-hidden">
+									<img
+										class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+										src={technology.fields.thumbnailUrl}
+										alt={technology.fields.name}
+										loading="lazy"
+									/>
+									<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
+
+									{/* Category Badge */}
+									{technology.fields.category && (
+										<div class="absolute top-4 right-4">
+											<span class="glass-strong px-3 py-1.5 rounded-full text-xs font-medium text-white/90">
+												{technology.fields.category}
+											</span>
+										</div>
+									)}
+
+									{/* Tech Icon Overlay */}
+									<div class="absolute top-4 left-4 w-12 h-12 glass-strong rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-2 group-hover:translate-y-0">
+										<svg
+											class="w-6 h-6 text-cyan-400"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+											/>
+										</svg>
+									</div>
+								</div>
+
+								{/* Content */}
+								<div class="relative p-6 flex flex-col flex-1">
+									<div class="flex-1 space-y-3">
+										<h3 class="text-xl font-bold text-white group-hover:gradient-text transition-all duration-300 line-clamp-2 leading-tight">
+											{technology.fields.name}
+										</h3>
+
+										<p class="text-white/60 text-sm line-clamp-3 leading-relaxed">
+											{technology.fields.description}
+										</p>
+									</div>
+
+									{/* CTA Button */}
+									<div class="mt-4 pt-4 border-t border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+										<span class="inline-flex items-center gap-2 text-sm font-medium">
+											<span class="gradient-text">
+												Explore {technology.fields.name}
+											</span>
+											<svg
+												class="w-4 h-4 text-cyan-400 group-hover:translate-x-1 transition-transform"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													stroke-width="2"
+													d="M14 5l7 7m0 0l-7 7m7-7H3"
+												/>
+											</svg>
+										</span>
+									</div>
+								</div>
+
+								{/* Hover Gradient Overlay */}
+								<div class="absolute inset-0 gradient-bg opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" />
+							</a>
 						</li>
-					);
-				})
+					))
+				}
+			</ul>
+
+			{/* Empty State */}
+			{
+				(!sortedTechnologies || sortedTechnologies.length === 0) && (
+					<div class="text-center py-24 glass rounded-3xl">
+						<div class="w-24 h-24 mx-auto mb-6 glass-strong rounded-full flex items-center justify-center">
+							<svg
+								class="w-12 h-12 text-white/40"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+								/>
+							</svg>
+						</div>
+						<h3 class="text-2xl font-bold text-white/80 mb-2">
+							No tech recommendations yet
+						</h3>
+						<p class="text-white/60">
+							Check back soon for new discoveries!
+						</p>
+					</div>
+				)
 			}
-		</ul>
+		</div>
+	</section>
+
+	{/* Newsletter CTA Section */}
+	<section class="container mx-auto px-6 py-24">
+		<div class="max-w-4xl mx-auto">
+			<div
+				class="relative glass-strong rounded-3xl p-12 overflow-hidden neon-glow"
+				data-animate
+			>
+				<div class="absolute inset-0 grid-background opacity-20"></div>
+
+				<div class="relative z-10 text-center space-y-6">
+					<div
+						class="w-16 h-16 mx-auto gradient-bg rounded-2xl flex items-center justify-center mb-4 floating"
+					>
+						<svg
+							class="w-8 h-8 text-white"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+						</svg>
+					</div>
+
+					<h2 class="text-3xl md:text-4xl font-bold">
+						<span class="gradient-text">Stay Ahead</span>
+						<span class="text-white"> of the Curve</span>
+					</h2>
+
+					<p class="text-lg text-white/70 max-w-2xl mx-auto">
+						Get the latest tech tools, frameworks, and resources
+						delivered to your inbox every week. Never miss a
+						game-changing discovery.
+					</p>
+
+					<div class="pt-4">
+						<a
+							href="/join"
+							class="inline-flex items-center gap-3 px-8 py-4 gradient-bg rounded-full text-lg font-bold text-white hover:scale-105 hover:shadow-2xl transition-all duration-300"
+						>
+							<span>Subscribe Now</span>
+							<svg
+								class="w-5 h-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+							</svg>
+						</a>
+					</div>
+
+					<p class="text-sm text-white/40">
+						Free forever. Unsubscribe anytime.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* Feature Highlights */}
+	<section class="container mx-auto px-6 pb-24">
+		<div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+			<div
+				class="glass rounded-2xl p-8 text-center card-hover"
+				data-animate
+			>
+				<div
+					class="w-16 h-16 mx-auto mb-4 glass-strong rounded-xl flex items-center justify-center"
+				>
+					<svg
+						class="w-8 h-8 text-purple-400"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+						></path>
+					</svg>
+				</div>
+				<h3 class="text-xl font-bold text-white mb-2">Hand-Picked</h3>
+				<p class="text-white/60 text-sm">
+					Every tool is personally tested and vetted for quality
+				</p>
+			</div>
+
+			<div
+				class="glass rounded-2xl p-8 text-center card-hover delay-100"
+				data-animate
+			>
+				<div
+					class="w-16 h-16 mx-auto mb-4 glass-strong rounded-xl flex items-center justify-center"
+				>
+					<svg
+						class="w-8 h-8 text-cyan-400"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+						></path>
+					</svg>
+				</div>
+				<h3 class="text-xl font-bold text-white mb-2">
+					Weekly Updates
+				</h3>
+				<p class="text-white/60 text-sm">
+					Fresh recommendations added every single week
+				</p>
+			</div>
+
+			<div
+				class="glass rounded-2xl p-8 text-center card-hover delay-200"
+				data-animate
+			>
+				<div
+					class="w-16 h-16 mx-auto mb-4 glass-strong rounded-xl flex items-center justify-center"
+				>
+					<svg
+						class="w-8 h-8 text-pink-400"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+						></path>
+					</svg>
+				</div>
+				<h3 class="text-xl font-bold text-white mb-2">
+					Community Driven
+				</h3>
+				<p class="text-white/60 text-sm">
+					Shared by developers, for developers
+				</p>
+			</div>
+		</div>
 	</section>
 </Layout>

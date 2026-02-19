@@ -1,32 +1,221 @@
 ---
-import SubscribeToNewsletter from '@/components/SubscribeToNewsletter.astro';
-import SubscribeModal from '../components/SubscribeModal.astro';
-import '../styles/globals.css';
-import { AppDrawer } from '@/components/AppDrawer';
+import SubscribeToNewsletter from "@/components/SubscribeToNewsletter.astro";
+import SubscribeModal from "../components/SubscribeModal.astro";
+import "../styles/globals.css";
+import { AppDrawer } from "@/components/AppDrawer";
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = "Home",
+	description = "Discover tech recommendations, music riffs, and join the community",
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content={description} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Riffs. Code. Community. | Home</title>
+		<title>Riffs. Code. Community. | {title}</title>
+
+		<!-- Preconnect to improve performance -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	</head>
-	<body class="text-white bg-black">
-		<header class="p-8">
-			<a class="hover:opacity-80" href="/">
-				<h1 class="text-4xl font-light">Riffs. Code. Community.</h1>
-			</a>
-			<AppDrawer client:load />
+	<body class="text-white bg-black relative overflow-x-hidden">
+		<!-- Animated Background Elements -->
+		<div class="fixed inset-0 pointer-events-none overflow-hidden">
+			<!-- Grid Background -->
+			<div class="absolute inset-0 grid-background opacity-30"></div>
+
+			<!-- Gradient Orbs -->
+			<div
+				class="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl floating"
+			>
+			</div>
+			<div
+				class="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl floating delay-300"
+			>
+			</div>
+			<div
+				class="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl floating delay-500"
+			>
+			</div>
+		</div>
+
+		<!-- Header with Glass Effect -->
+		<header class="sticky top-0 z-50 glass border-b border-white/10">
+			<div
+				class="container mx-auto px-6 py-6 flex items-center justify-between"
+			>
+				<a class="group relative" href="/">
+					<h1
+						class="text-3xl md:text-4xl font-light tracking-tight transition-all duration-300 group-hover:scale-105"
+					>
+						<span class="gradient-text font-semibold">Riffs.</span>
+						<span class="text-white/90">Code.</span>
+						<span class="gradient-text font-semibold"
+							>Community.</span
+						>
+					</h1>
+					<div
+						class="absolute -bottom-1 left-0 w-0 h-0.5 gradient-bg group-hover:w-full transition-all duration-300"
+					>
+					</div>
+				</a>
+				<AppDrawer client:load />
+			</div>
 		</header>
-		<main class="container mx-auto min-h-screen">
+
+		<!-- Main Content -->
+		<main class="relative z-10 min-h-screen">
 			<slot />
 		</main>
+
+		<!-- Subscribe Modal -->
 		<SubscribeModal />
-		<footer class="p-8">
-			Copyright &copy; 2025 Riffs Code Coffee. All Rights Reserved.
+
+		<!-- Footer with Glass Effect -->
+		<footer class="relative z-10 mt-32 border-t border-white/10">
+			<div class="glass py-12">
+				<div class="container mx-auto px-6">
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+						<!-- Brand Section -->
+						<div class="space-y-4">
+							<h3 class="text-2xl font-light">
+								<span class="gradient-text font-semibold"
+									>Riffs.</span
+								>
+								<span class="text-white/90">Code.</span>
+								<span class="gradient-text font-semibold"
+									>Community.</span
+								>
+							</h3>
+							<p class="text-white/60 text-sm leading-relaxed">
+								Your weekly dose of music recommendations, tech
+								discoveries, and community insights. Join
+								thousands of developers and music lovers.
+							</p>
+						</div>
+
+						<!-- Quick Links -->
+						<div class="space-y-4">
+							<h4 class="text-lg font-semibold text-white/90">
+								Quick Links
+							</h4>
+							<nav class="flex flex-col space-y-2">
+								<a
+									href="/"
+									class="text-white/60 hover:text-white hover:translate-x-2 transition-all duration-300 text-sm"
+									>Home</a
+								>
+								<a
+									href="/music"
+									class="text-white/60 hover:text-white hover:translate-x-2 transition-all duration-300 text-sm"
+									>Music</a
+								>
+								<a
+									href="/code"
+									class="text-white/60 hover:text-white hover:translate-x-2 transition-all duration-300 text-sm"
+									>Tech</a
+								>
+								<a
+									href="/subscribers/vault"
+									class="text-white/60 hover:text-white hover:translate-x-2 transition-all duration-300 text-sm"
+									>The Vault</a
+								>
+							</nav>
+						</div>
+
+						<!-- Newsletter CTA -->
+						<div class="space-y-4">
+							<h4 class="text-lg font-semibold text-white/90">
+								Stay Updated
+							</h4>
+							<p class="text-white/60 text-sm">
+								Get weekly recommendations delivered to your
+								inbox.
+							</p>
+							<a
+								href="/join"
+								class="inline-flex items-center gap-2 px-6 py-3 glass-strong rounded-full text-sm font-medium hover:scale-105 neon-glow-hover transition-all duration-300"
+							>
+								<span class="gradient-text font-semibold"
+									>Join the Community</span
+								>
+								<svg
+									class="w-4 h-4"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+								</svg>
+							</a>
+						</div>
+					</div>
+
+					<!-- Bottom Bar -->
+					<div
+						class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4"
+					>
+						<p class="text-white/40 text-xs">
+							Copyright &copy; 2025 Riffs Code Coffee. All Rights
+							Reserved.
+						</p>
+						<div class="flex items-center gap-6">
+							<a
+								href="#"
+								class="text-white/40 hover:text-white transition-colors text-xs"
+								>Privacy</a
+							>
+							<a
+								href="#"
+								class="text-white/40 hover:text-white transition-colors text-xs"
+								>Terms</a
+							>
+							<a
+								href="#"
+								class="text-white/40 hover:text-white transition-colors text-xs"
+								>Contact</a
+							>
+						</div>
+					</div>
+				</div>
+			</div>
 		</footer>
+
+		<!-- Smooth Scroll Script -->
+		<script>
+			document.addEventListener("astro:page-load", () => {
+				// Add intersection observer for fade-in animations
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("fade-in");
+							}
+						});
+					},
+					{ threshold: 0.1 },
+				);
+
+				// Observe all elements with data-animate attribute
+				document.querySelectorAll("[data-animate]").forEach((el) => {
+					observer.observe(el);
+				});
+			});
+		</script>
 	</body>
 </html>

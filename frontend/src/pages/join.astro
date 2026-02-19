@@ -1,18 +1,428 @@
 ---
-import Hero from '../components/Hero.astro';
-import SubscribeToNewsletter from '../components/SubscribeToNewsletter.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
+
+// Fetch subscriber count for server-side rendering
+let subscriberCount = "1000+";
+try {
+	const baseURL = "http://localhost:4321"; // Adjust if your backend runs on a different port
+	const response = await fetch(`${baseURL}/api/subscriber-count`);
+	if (response.ok) {
+		const data = await response.json();
+
+		subscriberCount = data.formatted;
+	}
+} catch (error) {
+	console.error("Failed to fetch subscriber count:", error);
+}
 ---
 
-<Layout>
-	<div class="p-16 py-10 rounded-2xl text-stone-200">
-		<h1 class="text-5xl text-center max-w-xl mx-auto font-bold">
-			Join the Riffs. Code. Community. Today!
-		</h1>
-		<p class="text-center mb-8 text-stone-200 text-2xl max-w-lg mt-4 mx-auto">
-			Riffs. Code. Coffee. is a weekly tech newsletter helping creators and
-			musicians grow their brands with modern technology.
-		</p>
-		<SubscribeToNewsletter />
-	</div>
+<Layout
+	title="Join the Community"
+	description="Subscribe to Riffs. Code. Coffee. newsletter and join thousands of developers and music lovers"
+>
+	<!-- Hero Section -->
+	<section
+		class="relative min-h-[80vh] flex items-center justify-center overflow-hidden"
+	>
+		<!-- Animated Background -->
+		<div class="absolute inset-0 spotlight opacity-50"></div>
+
+		<div class="container mx-auto px-6 relative z-10">
+			<div class="max-w-6xl mx-auto">
+				<!-- Main Content -->
+				<div class="text-center mb-12 fade-in">
+					<div
+						class="inline-flex items-center gap-3 glass px-6 py-3 rounded-full mb-6"
+					>
+						<svg
+							class="w-5 h-5 text-purple-400"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+							></path>
+						</svg>
+						<span class="text-white/80 text-sm font-medium"
+							>Weekly Newsletter</span
+						>
+					</div>
+
+					<h1
+						class="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
+					>
+						<span class="block gradient-text text-shadow-glow"
+							>Join the</span
+						>
+						<span class="block text-white/90 font-light"
+							>Community</span
+						>
+					</h1>
+
+					<p
+						class="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto leading-relaxed mb-4"
+					>
+						Get weekly tech recommendations, music discoveries, and
+						insights delivered straight to your inbox. Join <span
+							class="gradient-text font-semibold"
+							>{subscriberCount}</span
+						> developers and music lovers.
+					</p>
+				</div>
+
+				<!-- Newsletter Signup Form -->
+				<div class="mb-16 fade-in-scale delay-200">
+					<NewsletterSignup
+						variant="hero"
+						showStats={true}
+						client:load
+					/>
+				</div>
+
+				<!-- Social Proof & Features -->
+				<div
+					class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto fade-in delay-300"
+				>
+					<!-- Feature 1 -->
+					<div
+						class="glass rounded-2xl p-8 text-center card-hover"
+						data-animate
+					>
+						<div
+							class="w-16 h-16 mx-auto mb-4 glass-strong rounded-xl flex items-center justify-center"
+						>
+							<svg
+								class="w-8 h-8 text-purple-400"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+								></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-white mb-2">
+							Music Recs
+						</h3>
+						<p class="text-white/60 text-sm leading-relaxed">
+							Hand-picked tracks across all genres. From indie to
+							electronic, discover your next favorite song.
+						</p>
+					</div>
+
+					<!-- Feature 2 -->
+					<div
+						class="glass rounded-2xl p-8 text-center card-hover delay-100"
+						data-animate
+					>
+						<div
+							class="w-16 h-16 mx-auto mb-4 glass-strong rounded-xl flex items-center justify-center"
+						>
+							<svg
+								class="w-8 h-8 text-cyan-400"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+								></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-white mb-2">
+							Tech Tools
+						</h3>
+						<p class="text-white/60 text-sm leading-relaxed">
+							The latest frameworks, libraries, and tools to level
+							up your development workflow and skills.
+						</p>
+					</div>
+
+					<!-- Feature 3 -->
+					<div
+						class="glass rounded-2xl p-8 text-center card-hover delay-200"
+						data-animate
+					>
+						<div
+							class="w-16 h-16 mx-auto mb-4 glass-strong rounded-xl flex items-center justify-center"
+						>
+							<svg
+								class="w-8 h-8 text-pink-400"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+								></path>
+							</svg>
+						</div>
+						<h3 class="text-xl font-bold text-white mb-2">
+							Weekly Insights
+						</h3>
+						<p class="text-white/60 text-sm leading-relaxed">
+							Thoughtful content about creativity, technology, and
+							the intersection of code and music.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- What You'll Get Section -->
+	<section class="container mx-auto px-6 py-24" data-animate>
+		<div class="max-w-4xl mx-auto">
+			<div class="text-center mb-12">
+				<h2 class="text-4xl md:text-5xl font-bold mb-4">
+					<span class="text-white/40 font-light">What You'll</span>
+					<span class="gradient-text">Get</span>
+				</h2>
+				<div class="h-1 w-32 gradient-bg rounded-full mx-auto"></div>
+			</div>
+
+			<div class="space-y-6">
+				<!-- Benefit 1 -->
+				<div
+					class="glass-strong rounded-2xl p-8 card-hover flex gap-6 items-start"
+				>
+					<div
+						class="flex-shrink-0 w-12 h-12 gradient-bg rounded-xl flex items-center justify-center"
+					>
+						<svg
+							class="w-6 h-6 text-white"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M5 13l4 4L19 7"></path>
+						</svg>
+					</div>
+					<div>
+						<h3 class="text-xl font-bold text-white mb-2">
+							Weekly Pull Request
+						</h3>
+						<p class="text-white/70 leading-relaxed">
+							Every week, you'll receive a curated selection of
+							music tracks and tech tools that I've personally
+							tested and loved. No filler, just the good stuff.
+						</p>
+					</div>
+				</div>
+
+				<!-- Benefit 2 -->
+				<div
+					class="glass-strong rounded-2xl p-8 card-hover flex gap-6 items-start"
+				>
+					<div
+						class="flex-shrink-0 w-12 h-12 gradient-bg rounded-xl flex items-center justify-center"
+					>
+						<svg
+							class="w-6 h-6 text-white"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+							></path>
+						</svg>
+					</div>
+					<div>
+						<h3 class="text-xl font-bold text-white mb-2">
+							Exclusive Content
+						</h3>
+						<p class="text-white/70 leading-relaxed">
+							Access to subscriber-only content, including deep
+							dives, behind-the-scenes insights, and early access
+							to new features.
+						</p>
+					</div>
+				</div>
+
+				<!-- Benefit 3 -->
+				<div
+					class="glass-strong rounded-2xl p-8 card-hover flex gap-6 items-start"
+				>
+					<div
+						class="flex-shrink-0 w-12 h-12 gradient-bg rounded-xl flex items-center justify-center"
+					>
+						<svg
+							class="w-6 h-6 text-white"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+							></path>
+						</svg>
+					</div>
+					<div>
+						<h3 class="text-xl font-bold text-white mb-2">
+							Community Access
+						</h3>
+						<p class="text-white/70 leading-relaxed">
+							Join a community of creative developers and music
+							enthusiasts. Share your discoveries and connect with
+							like-minded people.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Testimonials / Social Proof Section -->
+	<section class="container mx-auto px-6 py-24" data-animate>
+		<div class="max-w-5xl mx-auto">
+			<div class="text-center mb-12">
+				<h2 class="text-4xl md:text-5xl font-bold mb-4">
+					<span class="text-white/40 font-light">Loved by</span>
+					<span class="gradient-text">Developers</span>
+				</h2>
+				<div class="h-1 w-32 gradient-bg rounded-full mx-auto"></div>
+			</div>
+
+			<div class="grid md:grid-cols-3 gap-6">
+				<!-- Testimonial 1 -->
+				<div class="glass-strong rounded-2xl p-6 card-hover">
+					<div class="flex items-center gap-3 mb-4">
+						<div
+							class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center font-bold text-white"
+						>
+							DJ
+						</div>
+						<div>
+							<div class="font-semibold text-white">
+								Developer
+							</div>
+							<div class="text-xs text-white/60">Subscriber</div>
+						</div>
+					</div>
+					<p class="text-white/70 text-sm leading-relaxed">
+						"The music recommendations are always spot on. I've
+						discovered so many great artists through this
+						newsletter!"
+					</p>
+				</div>
+
+				<!-- Testimonial 2 -->
+				<div class="glass-strong rounded-2xl p-6 card-hover">
+					<div class="flex items-center gap-3 mb-4">
+						<div
+							class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center font-bold text-white"
+						>
+							SM
+						</div>
+						<div>
+							<div class="font-semibold text-white">Engineer</div>
+							<div class="text-xs text-white/60">Subscriber</div>
+						</div>
+					</div>
+					<p class="text-white/70 text-sm leading-relaxed">
+						"The tech tools section has saved me so much time. Every
+						recommendation is thoroughly vetted and practical."
+					</p>
+				</div>
+
+				<!-- Testimonial 3 -->
+				<div class="glass-strong rounded-2xl p-6 card-hover">
+					<div class="flex items-center gap-3 mb-4">
+						<div
+							class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center font-bold text-white"
+						>
+							AC
+						</div>
+						<div>
+							<div class="font-semibold text-white">Creator</div>
+							<div class="text-xs text-white/60">Subscriber</div>
+						</div>
+					</div>
+					<p class="text-white/70 text-sm leading-relaxed">
+						"Perfect blend of music and tech. It's become my
+						favorite newsletter to read every week!"
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Final CTA Section -->
+	<section class="container mx-auto px-6 py-24" data-animate>
+		<div class="max-w-3xl mx-auto">
+			<div
+				class="relative glass-strong rounded-3xl p-12 overflow-hidden neon-glow"
+			>
+				<div class="absolute inset-0 grid-background opacity-20"></div>
+
+				<div class="relative z-10 text-center space-y-6">
+					<h2 class="text-3xl md:text-4xl font-bold">
+						<span class="gradient-text">Ready to Join?</span>
+					</h2>
+					<p class="text-lg text-white/70 max-w-2xl mx-auto">
+						Join {subscriberCount} subscribers getting weekly music and
+						tech recommendations. It's free, and you can unsubscribe anytime.
+					</p>
+
+					<div class="pt-4">
+						<a
+							href="#"
+							onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;"
+							class="inline-flex items-center gap-3 px-8 py-4 gradient-bg rounded-full text-lg font-bold text-white hover:scale-105 hover:shadow-2xl transition-all duration-300"
+						>
+							<span>Subscribe Now</span>
+							<svg
+								class="w-5 h-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+							</svg>
+						</a>
+					</div>
+
+					<div
+						class="flex items-center justify-center gap-6 text-sm text-white/50 pt-4"
+					>
+						<span>✓ 100% Free</span>
+						<span>•</span>
+						<span>✓ No Credit Card</span>
+						<span>•</span>
+						<span>✓ Cancel Anytime</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </Layout>

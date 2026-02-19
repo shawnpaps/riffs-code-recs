@@ -1,0 +1,188 @@
+---
+// Test page to verify subscriber count API
+let apiResponse = null;
+let error = null;
+
+try {
+	const baseURL = import.meta.env.PUBLIC_BASE_URL || 'http://localhost:4321';
+	const response = await fetch(`${baseURL}/api/subscriber-count`);
+	apiResponse = await response.json();
+} catch (e) {
+	error = e instanceof Error ? e.message : String(e);
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Subscriber Count API Test</title>
+	<style>
+		body {
+			font-family: system-ui, -apple-system, sans-serif;
+			max-width: 800px;
+			margin: 2rem auto;
+			padding: 0 1rem;
+			background: #0a0a0a;
+			color: #fff;
+		}
+		.card {
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			border-radius: 1rem;
+			padding: 2rem;
+			margin: 1rem 0;
+		}
+		.success { color: #10b981; }
+		.error { color: #ef4444; }
+		.label {
+			font-size: 0.875rem;
+			color: rgba(255, 255, 255, 0.6);
+			margin-bottom: 0.5rem;
+		}
+		.value {
+			font-size: 2rem;
+			font-weight: bold;
+			background: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+		pre {
+			background: #000;
+			padding: 1rem;
+			border-radius: 0.5rem;
+			overflow-x: auto;
+			font-size: 0.875rem;
+		}
+		button {
+			background: linear-gradient(135deg, #8b5cf6, #ec4899);
+			color: white;
+			border: none;
+			padding: 0.75rem 1.5rem;
+			border-radius: 0.5rem;
+			font-weight: 600;
+			cursor: pointer;
+			margin-top: 1rem;
+		}
+		button:hover {
+			opacity: 0.9;
+		}
+		.status-badge {
+			display: inline-block;
+			padding: 0.25rem 0.75rem;
+			border-radius: 9999px;
+			font-size: 0.875rem;
+			font-weight: 600;
+		}
+		.status-ok {
+			background: rgba(16, 185, 129, 0.1);
+			color: #10b981;
+		}
+		.status-error {
+			background: rgba(239, 68, 68, 0.1);
+			color: #ef4444;
+		}
+	</style>
+</head>
+<body>
+	<h1>🧪 Subscriber Count API Test</h1>
+	<p style="color: rgba(255, 255, 255, 0.6);">Testing the <code>/api/subscriber-count</code> endpoint</p>
+
+	{error ? (
+		<div class="card">
+			<h2 class="error">❌ Error</h2>
+			<p>{error}</p>
+		</div>
+	) : apiResponse ? (
+		<>
+			<div class="card">
+				<h2 class="success">✅ API Response Received</h2>
+				{apiResponse.error ? (
+					<>
+						<p><span class="status-badge status-error">API Error</span></p>
+						<p>The API returned an error: {apiResponse.error}</p>
+					</>
+				) : (
+					<p><span class="status-badge status-ok">Success</span></p>
+				)}
+			</div>
+
+			<div class="card">
+				<h3>Subscriber Count</h3>
+				<div class="label">Raw Count:</div>
+				<div class="value">{apiResponse.count || 0}</div>
+
+				<div class="label" style="margin-top: 1rem;">Formatted:</div>
+				<div class="value">{apiResponse.formatted || 'N/A'}</div>
+
+				<div class="label" style="margin-top: 1rem;">Last Updated:</div>
+				<div style="color: rgba(255, 255, 255, 0.8);">
+					{apiResponse.lastUpdated ? new Date(apiResponse.lastUpdated).toLocaleString() : 'N/A'}
+				</div>
+			</div>
+
+			<div class="card">
+				<h3>Full API Response</h3>
+				<pre>{JSON.stringify(apiResponse, null, 2)}</pre>
+			</div>
+
+			<div class="card">
+				<h3>Environment Check</h3>
+				<p><strong>BEEHIIV_TOKEN:</strong> {import.meta.env.BEEHIIV_TOKEN ? '✅ Set' : '❌ Not Set'}</p>
+				<p><strong>BEEHIIV_V2_ID:</strong> {import.meta.env.BEEHIIV_V2_ID ? '✅ Set' : '❌ Not Set'}</p>
+				<p><strong>PUBLIC_BASE_URL:</strong> {import.meta.env.PUBLIC_BASE_URL || 'http://localhost:4321'}</p>
+			</div>
+		</>
+	) : (
+		<div class="card">
+			<p>No response received</p>
+		</div>
+	)}
+
+	<div class="card">
+		<h3>Client-Side Test</h3>
+		<p>Click the button to test fetching from the client:</p>
+		<button id="testButton">🔄 Fetch Subscriber Count</button>
+		<div id="clientResult" style="margin-top: 1rem;"></div>
+	</div>
+
+	<div style="margin-top: 2rem; padding: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+		<a href="/" style="color: #8b5cf6; text-decoration: none;">← Back to Home</a>
+	</div>
+
+	<script>
+		document.getElementById('testButton')?.addEventListener('click', async () => {
+			const resultDiv = document.getElementById('clientResult');
+			if (!resultDiv) return;
+
+			resultDiv.innerHTML = '<p style="color: #06b6d4;">Loading...</p>';
+
+			try {
+				const response = await fetch('/api/subscriber-count');
+				const data = await response.json();
+
+				resultDiv.innerHTML = `
+					<div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 1rem; border-radius: 0.5rem; margin-top: 1rem;">
+						<p style="color: #10b981; font-weight: 600;">✅ Client-side fetch successful!</p>
+						<p style="color: rgba(255, 255, 255, 0.8); margin-top: 0.5rem;">
+							<strong>Count:</strong> ${data.count}<br>
+							<strong>Formatted:</strong> ${data.formatted}<br>
+							<strong>Last Updated:</strong> ${new Date(data.lastUpdated).toLocaleString()}
+						</p>
+						${data.error ? `<p style="color: #ef4444; margin-top: 0.5rem;"><strong>API Error:</strong> ${data.error}</p>` : ''}
+					</div>
+				`;
+			} catch (error) {
+				resultDiv.innerHTML = `
+					<div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 1rem; border-radius: 0.5rem; margin-top: 1rem;">
+						<p style="color: #ef4444; font-weight: 600;">❌ Client-side fetch failed</p>
+						<p style="color: rgba(255, 255, 255, 0.8); margin-top: 0.5rem;">${error instanceof Error ? error.message : String(error)}</p>
+					</div>
+				`;
+			}
+		});
+	</script>
+</body>
+</html>

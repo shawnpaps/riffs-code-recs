@@ -1,15 +1,24 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import Card from '../components/Card.astro';
-import RecentlyAddedCard from '../components/RecentlyAddedCard.astro';
 import RecentBlogArticles from '../components/RecentBlogArticles.astro';
-import SubscribeToNewsletter from '../components/SubscribeToNewsletter.astro';
+import { NewsletterSignup } from '@/components/NewsletterSignup';
 import { fetchAllFromTable } from '@/lib/functions';
 
 const allSongData = await fetchAllFromTable('songs');
 const allTechnologyData = await fetchAllFromTable('technologies');
+
+// Fetch subscriber count
+let subscriberCount = "1000+";
+try {
+	const baseURL = import.meta.env.PUBLIC_BASE_URL || 'http://localhost:4321';
+	const response = await fetch(`${baseURL}/api/subscriber-count`);
+	if (response.ok) {
+		const data = await response.json();
+		subscriberCount = data.formatted || "1000+";
+	}
+} catch (error) {
+	console.error("Failed to fetch subscriber count:", error);
+}
 
 const prevDate = new Date();
 prevDate.setDate(prevDate.getDate() - 30);
@@ -17,115 +26,315 @@ prevDate.setDate(prevDate.getDate() - 30);
 const recentRiffs = allSongData
 	?.filter((song) => {
 		const songDate = new Date(song.sys.createdAt);
-
 		return songDate >= prevDate;
 	})
 	.sort((a, b) => {
 		return (
 			new Date(b.sys.createdAt).getTime() - new Date(a.sys.createdAt).getTime()
 		);
-	});
+	})
+	.slice(0, 8);
 
 const recentTechnologies = allTechnologyData
 	?.filter((technology) => {
 		const technologyDate = new Date(technology.sys.createdAt);
-
 		return technologyDate >= prevDate;
 	})
 	.sort((a, b) => {
 		return (
 			new Date(b.sys.createdAt).getTime() - new Date(a.sys.createdAt).getTime()
 		);
-	});
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+	})
+	.slice(0, 8);
 ---
 
-<Layout>
-	<section class="h-[20rem] flex items-center justify-between px-8">
-		<h1 class="text-7xl text-stone-200 font-semibold">
-			Welcome to Riffs. Code. Community.
-		</h1>
-		<div>
-			<p class="text-stone-200 font-light max-w-lg">
-				Riffs Code Community is the official community for the Riffs. Code.
-				Coffee. Newsletter. Here, you'll find all of the latest news and updates
-				from the newsletter, as well as music recommendations, tech recs and
-				tips, and more.
-			</p>
-			<a href="/join" class="btn mt-4 btn-outline btn-info"
-				>Join the Riffs. Code. Community.</a
-			>
+<Layout title="Home" description="Discover the best tech and music recommendations from Riffs. Code. Coffee.">
+	<!-- Hero Section -->
+	<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+		<!-- Spotlight Effect -->
+		<div class="absolute inset-0 spotlight opacity-50"></div>
+
+		<div class="container mx-auto px-6 relative z-10">
+			<div class="max-w-6xl mx-auto text-center space-y-8">
+				<!-- Main Heading -->
+				<div class="space-y-4" data-animate>
+					<h1 class="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight">
+						<span class="block gradient-text text-shadow-glow">Welcome to</span>
+						<span class="block text-white/90 font-light">Riffs. Code.</span>
+						<span class="block gradient-text text-shadow-glow">Community.</span>
+					</h1>
+				</div>
+
+				<!-- Subtitle -->
+				<p class="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto leading-relaxed slide-in-right delay-200">
+					Your weekly dose of <span class="text-purple-400 font-semibold">cutting-edge tech</span>,
+					<span class="text-cyan-400 font-semibold">incredible music</span>, and a
+					<span class="text-pink-400 font-semibold">thriving community</span> of developers and creators.
+				</p>
+
+				<!-- CTA Buttons -->
+				<div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8 fade-in-scale delay-300">
+					<a
+						href="/join"
+						class="group relative px-8 py-4 glass-strong rounded-full text-lg font-semibold hover:scale-105 transition-all duration-300 neon-glow-hover overflow-hidden"
+					>
+						<span class="relative z-10 gradient-text">Join the Community</span>
+						<div class="absolute inset-0 gradient-bg opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+					</a>
+					<a
+						href="#discover"
+						class="px-8 py-4 glass rounded-full text-lg font-medium text-white/80 hover:text-white hover:scale-105 transition-all duration-300 border border-white/20"
+					>
+						Explore Content
+					</a>
+				</div>
+
+				<!-- Stats Bar -->
+				<div class="pt-16 grid grid-cols-2 md:grid-cols-3 gap-8 max-w-3xl mx-auto fade-in delay-500">
+					<div class="glass rounded-2xl p-6 card-hover">
+						<div class="text-4xl md:text-5xl font-bold gradient-text">{allSongData?.length || 0}</div>
+						<div class="text-white/60 text-sm mt-2">Riffs Curated</div>
+					</div>
+					<div class="glass rounded-2xl p-6 card-hover">
+						<div class="text-4xl md:text-5xl font-bold gradient-text">{allTechnologyData?.length || 0}</div>
+						<div class="text-white/60 text-sm mt-2">Tech Recs</div>
+					</div>
+					<div class="glass rounded-2xl p-6 card-hover col-span-2 md:col-span-1">
+						<div class="text-4xl md:text-5xl font-bold gradient-text">{subscriberCount}</div>
+						<div class="text-white/60 text-sm mt-2">Subscribers</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Scroll Indicator -->
+		<div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+			<svg class="w-6 h-6 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+			</svg>
 		</div>
 	</section>
-	<section class="my-16 p-16 py-10 rounded-2xl text-black container mx-auto">
-		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
-			Recent Riffs.
-		</h2>
-		<ul class="grid grid-cols-4 gap-4 mt-4">
-			{
-				recentRiffs?.map((song) => {
-					return (
-						<li class="bg-gradient-to-t from-black to-stone-200/50 col-span-1 h-[20rem] flex flex-col group hover:bg-black/40 hover:justify-center justify-end p-4 transition-all ease-in duration-200 text-white rounded-2xl">
-							<a href={song.fields.appleMusicUrl} target="_blank">
-								<h3 class="text-2xl font-semibold">{song.fields.title}</h3>
-								<p class="text-sm">{song.fields.artist}</p>
-								<p class="text-sm font-semibold text-red-300 invisible group-hover:visible">
-									Listen on Apple Music
-								</p>
-							</a>
-						</li>
-					);
-				})
-			}
-			<li
-				class="text-white/50 text-center flex flex-col justify-center text-2xl hover:text-white transition-all ease-in duration-200"
-			>
-				<a href="/music">More Music...</a>
-			</li>
-		</ul>
-	</section>
-	<section class="my-16 p-16 py-10 rounded-2xl text-black container mx-auto">
-		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
-			New Tech Recs.
-		</h2>
-		<ul class="grid grid-cols-4 gap-4 mt-4">
-			{
-				recentTechnologies?.map((technology) => {
-					return (
-						<li class="bg-gradient-to-t from-black to-stone-200/50 col-span-1 h-[20rem] flex flex-col group hover:bg-black/40 hover:justify-center justify-between p-4 transition-all ease-in duration-200 text-white rounded-2xl">
-							<a href={technology.fields.url} target="_blank">
-								<img
-									class="w-full h-56 object-cover rounded-2xl"
-									src={technology.fields.thumbnailUrl}
-								/>
-								<h3 class="text-2xl font-semibold">{technology.fields.name}</h3>
-								<p class="text-sm">{technology.fields.description}</p>
-							</a>
-						</li>
-					);
-				})
-			}
+
+	<!-- Recent Riffs Section -->
+	<section id="discover" class="container mx-auto px-6 py-24" data-animate>
+		<div class="mb-12">
+			<div class="flex items-center justify-between mb-4">
+				<h2 class="text-5xl md:text-6xl font-bold">
+					<span class="text-white/40 font-light">Recent</span>
+					<span class="gradient-text">Riffs</span>
+				</h2>
+				<a
+					href="/music"
+					class="group flex items-center gap-2 text-white/60 hover:text-white transition-colors"
+				>
+					<span>View All</span>
+					<svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+					</svg>
+				</a>
+			</div>
+			<div class="h-1 w-32 gradient-bg rounded-full"></div>
+		</div>
+
+		<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+			{recentRiffs?.map((song, index) => (
+				<li
+					class="group relative glass rounded-2xl overflow-hidden card-hover shimmer"
+					style={`animation-delay: ${index * 100}ms`}
+				>
+					<a href={song.fields.appleMusicUrl} target="_blank" rel="noopener noreferrer" class="block">
+						<div class="absolute inset-0 gradient-bg opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+
+						<div class="relative p-6 h-72 flex flex-col justify-between">
+							<!-- Music Icon -->
+							<div class="w-12 h-12 glass-strong rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+								<svg class="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+								</svg>
+							</div>
+
+							<!-- Content -->
+							<div class="space-y-2">
+								<h3 class="text-2xl font-bold text-white group-hover:gradient-text transition-all duration-300 line-clamp-2">
+									{song.fields.title}
+								</h3>
+								<p class="text-white/60 text-sm">{song.fields.artist}</p>
+
+								<!-- Hover State -->
+								<div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 pt-4">
+									<span class="inline-flex items-center gap-2 text-sm text-cyan-400 font-medium">
+										Listen on Apple Music
+										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+										</svg>
+									</span>
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+			))}
 		</ul>
 	</section>
 
-	<section class="my-16 p-16 py-10 rounded-2xl text-black">
-		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
-			Latest Reads.
-		</h2>
+	<!-- Tech Recs Section -->
+	<section class="container mx-auto px-6 py-24" data-animate>
+		<div class="mb-12">
+			<div class="flex items-center justify-between mb-4">
+				<h2 class="text-5xl md:text-6xl font-bold">
+					<span class="text-white/40 font-light">New</span>
+					<span class="gradient-text">Tech Recs</span>
+				</h2>
+				<a
+					href="/code"
+					class="group flex items-center gap-2 text-white/60 hover:text-white transition-colors"
+				>
+					<span>View All</span>
+					<svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+					</svg>
+				</a>
+			</div>
+			<div class="h-1 w-32 gradient-bg rounded-full"></div>
+		</div>
+
+		<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+			{recentTechnologies?.map((technology, index) => (
+				<li
+					class="group relative glass rounded-2xl overflow-hidden card-hover shimmer"
+					style={`animation-delay: ${index * 100}ms`}
+				>
+					<a href={technology.fields.url} target="_blank" rel="noopener noreferrer" class="block">
+						<!-- Image Container -->
+						<div class="relative h-48 overflow-hidden">
+							<img
+								class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+								src={technology.fields.thumbnailUrl}
+								alt={technology.fields.name}
+								loading="lazy"
+							/>
+							<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+						</div>
+
+						<!-- Content -->
+						<div class="relative p-6 space-y-2">
+							<h3 class="text-xl font-bold text-white group-hover:gradient-text transition-all duration-300 line-clamp-1">
+								{technology.fields.name}
+							</h3>
+							<p class="text-white/60 text-sm line-clamp-2">
+								{technology.fields.description}
+							</p>
+
+							<!-- Hover State -->
+							<div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 pt-2">
+								<span class="inline-flex items-center gap-2 text-sm text-purple-400 font-medium">
+									Explore {technology.fields.name}
+									<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+									</svg>
+								</span>
+							</div>
+						</div>
+					</a>
+				</li>
+			))}
+		</ul>
+	</section>
+
+	<!-- Latest Blog Posts -->
+	<section class="container mx-auto px-6 py-24" data-animate>
+		<div class="mb-12">
+			<div class="flex items-center justify-between mb-4">
+				<h2 class="text-5xl md:text-6xl font-bold">
+					<span class="text-white/40 font-light">Latest</span>
+					<span class="gradient-text">Reads</span>
+				</h2>
+			</div>
+			<div class="h-1 w-32 gradient-bg rounded-full"></div>
+		</div>
+
 		<RecentBlogArticles />
 	</section>
-	<section class="my-16 p-16 py-10 rounded-2xl text-black">
-		<h2 class="text-5xl font-extralight text-stone-200 border-b-2 w-1/2">
-			Stats.
-		</h2>
-		<div>
-			<div
-				class="text-xl text-center font-semibold text-stone-200 flex flex-col gap-2"
-			>
-				<span>{allSongData?.length}</span>
-				<span class="block text-2xl">Riffs</span>
+
+	<!-- Newsletter Signup Section with Form -->
+	<section class="container mx-auto px-6 py-24" data-animate>
+		<div class="max-w-4xl mx-auto">
+			<div class="text-center mb-8">
+				<h2 class="text-4xl md:text-5xl font-bold mb-4">
+					<span class="gradient-text">Join {subscriberCount}</span>
+					<span class="text-white"> Subscribers</span>
+				</h2>
+				<p class="text-xl text-white/70 max-w-2xl mx-auto">
+					Get weekly tech and music recommendations delivered straight to your inbox
+				</p>
 			</div>
+
+			<NewsletterSignup variant="hero" showStats={true} client:load />
 		</div>
 	</section>
+
+	<!-- Sticky Newsletter Bar (shows on scroll) -->
+	<div id="sticky-newsletter" class="fixed bottom-0 left-0 right-0 z-40 translate-y-full transition-transform duration-300">
+		<div class="glass-strong border-t border-white/10 py-4">
+			<div class="container mx-auto px-6">
+				<div class="flex flex-col md:flex-row items-center justify-between gap-4">
+					<div class="flex items-center gap-4">
+						<div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center flex-shrink-0">
+							<svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+							</svg>
+						</div>
+						<div>
+							<div class="font-semibold text-white text-sm">Join {subscriberCount} subscribers</div>
+							<div class="text-xs text-white/60">Get weekly recommendations in your inbox</div>
+						</div>
+					</div>
+					<div class="flex items-center gap-3">
+						<a href="/join" class="px-6 py-2.5 gradient-bg rounded-full text-sm font-bold text-white hover:scale-105 transition-all duration-300 whitespace-nowrap">
+							Subscribe Free
+						</a>
+						<button id="close-sticky" class="p-2 text-white/60 hover:text-white transition-colors">
+							<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Sticky Bar Script -->
+	<script>
+		document.addEventListener("astro:page-load", () => {
+			const stickyBar = document.getElementById("sticky-newsletter");
+			const closeButton = document.getElementById("close-sticky");
+			let hasShown = false;
+			let isDismissed = sessionStorage.getItem("newsletter-dismissed") === "true";
+
+			function handleScroll() {
+				if (isDismissed || hasShown) return;
+
+				const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+
+				// Show after 50% scroll
+				if (scrollPercent > 50 && stickyBar) {
+					stickyBar.classList.remove("translate-y-full");
+					hasShown = true;
+				}
+			}
+
+			if (closeButton && stickyBar) {
+				closeButton.addEventListener("click", () => {
+					stickyBar.classList.add("translate-y-full");
+					isDismissed = true;
+					sessionStorage.setItem("newsletter-dismissed", "true");
+				});
+			}
+
+			if (!isDismissed) {
+				window.addEventListener("scroll", handleScroll);
+			}
+		});
+	</script>
 </Layout>
